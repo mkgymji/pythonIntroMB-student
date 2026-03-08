@@ -145,27 +145,66 @@
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}[fragile]{Funkce: pojmenovaná akce}
+\begin{frame}[fragile]{Funkce a argument}
 
-  \pojem{Funkce} je příkaz, který má jméno a dělá konkrétní věc.
-  Spustíme ji tak, že za její jméno napíšeme závorky.
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \textbf{Mikrovlnka:}
 
-  \bigskip
-  \begin{lstlisting}
+      \medskip
+      \begin{tikzpicture}
+        % tělo mikrovlnky
+        \draw[rounded corners=4pt, fill=gray!10, draw=gray!50, thick]
+          (0,0) rectangle (4.2,1.6);
+        % dvířka
+        \draw[rounded corners=2pt, fill=gray!20, draw=gray!50]
+          (0.1,0.1) rectangle (2.8,1.5);
+        % tlačítko
+        \draw[fill=microbit-blue, draw=microbit-blue!80, rounded corners=2pt]
+          (3.1,0.5) rectangle (4.0,1.1);
+        \node[text=white, font=\footnotesize\bfseries] at (3.55,0.8) {Ohřej};
+        % displej s časem
+        \draw[fill=black!80, rounded corners=1pt]
+          (3.05,0.1) rectangle (4.05,0.45);
+        \node[text=green!60, font=\footnotesize\ttfamily] at (3.55,0.28) {2:00};
+      \end{tikzpicture}
+
+      \medskip
+      \small
+      \begin{tabular}{ll}
+        \textbf{akce:}    & Ohřej \\
+        \textbf{nastavení:} & 2 minuty \\
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \textbf{Python:}
+
+      \medskip
+      \begin{lstlisting}
 display.scroll("Ahoj!")
-  \end{lstlisting}
+      \end{lstlisting}
+
+      \medskip
+      \small
+      \begin{tabular}{ll}
+        \textbf{jméno funkce:} & \pyinline{display.scroll} \\
+        \textbf{argument:}     & \pyinline{"Ahoj!"} \\
+      \end{tabular}
+
+      \medskip\medskip
+      \textcolor{gray}{\footnotesize
+        Závorky \pyinline{()} říkají:\\
+        \uv{teď tuto funkci spusť}
+      }
+    \end{column}
+  \end{columns}
 
   \bigskip
-  \begin{itemize}
-    \item \pyinline{display.scroll} — \pojem{jméno funkce}
-    \item \pyinline{()} — závorky = \uv{teď tuto funkci spusť}
-    \item \pyinline{"Ahoj!"} — \pojem{argument}: hodnota, kterou funkci předáme
-  \end{itemize}
-
-  \bigskip
-  \textcolor{gray}{\small
-    Analogie: funkce je jako tlačítko. Argument je to, co nastavíme před stiskem.
-  }
+  \begin{block}{}
+    \centering
+    \pojem{Funkce} = pojmenovaná akce \quad
+    \pojem{Argument} = co jí předáme
+  \end{block}
 \end{frame}
 
 % ------------------------------------------------------------------
