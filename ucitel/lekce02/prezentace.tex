@@ -1,0 +1,186 @@
+% prezentace.tex -- Lekce 02: Proměnné a typy
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 02: Proměnné a typy}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co je proměnná?}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \pojem{Proměnná} = krabice s nálepkou.
+
+      \bigskip
+      \begin{itemize}
+        \item \textbf{Nálepka} = jméno proměnné
+        \item \textbf{Obsah} = hodnota
+      \end{itemize}
+
+      \bigskip
+      Kdykoli použijeme jméno,\\
+      Python sáhne do krabice\\
+      a vezme obsah.
+
+      \bigskip
+      \textcolor{gray}{\small
+        Hodnotu v krabici lze kdykoli\\
+        vyměnit — proto \emph{pro\-měn\-ná}.
+      }
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \centering
+      \begin{tikzpicture}
+        % krabice
+        \draw[thick, microbit-blue, fill=microbit-lightblue, rounded corners=4pt]
+          (0,0) rectangle (3.4,1.8);
+        % nálepka
+        \draw[fill=white, draw=microbit-blue, rounded corners=2pt]
+          (0.8,1.5) rectangle (2.6,2.1);
+        \node[font=\small\ttfamily\bfseries, text=microbit-blue] at (1.7,1.8) {jmeno};
+        % obsah
+        \node[font=\normalsize\ttfamily, text=microbit-blue!80] at (1.7,0.9)
+          {"Alice"};
+        % šipka přiřazení
+        \node[font=\small, text=gray] at (1.7,-0.5) {\texttt{jmeno = "Alice"}};
+        \draw[->, gray, thick] (1.7,-0.25) -- (1.7,0.1);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Přiřazení hodnoty}
+
+  \begin{lstlisting}
+jmeno = "Alice"
+  \end{lstlisting}
+
+  \bigskip
+  Čteme \textbf{zprava doleva}:
+  \begin{enumerate}
+    \item Vezmi hodnotu \pyinline{"Alice"}
+    \item Ulož ji do proměnné \pyinline{jmeno}
+  \end{enumerate}
+
+  \bigskip
+  \begin{lstlisting}
+from microbit import *
+
+jmeno = "Alice"
+display.scroll(jmeno)   # zobrazí: Alice
+  \end{lstlisting}
+
+  \pause\bigskip
+  \begin{alertblock}{Výhoda}
+    Chceš zobrazit jiné jméno? Změníš \textbf{jednu hodnotu} nahoře —
+    zbytek programu zůstane stejný.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Typy hodnot}
+
+  Každá hodnota v Pythonu má svůj \pojem{typ}.
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{\texttt{str} — řetězec (text)}
+        Vždy v \textbf{uvozovkách}.\\[4pt]
+        \pyinline{"Alice"}\\
+        \pyinline{"1.A"}\\
+        \pyinline{"16"}  \textcolor{gray}{\small\quad ← tohle je text!}
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{\texttt{int} — celé číslo}
+        Bez uvozovek.\\[4pt]
+        \pyinline{16}\\
+        \pyinline{2025}\\
+        \pyinline{-5}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  \begin{lstlisting}
+jmeno = "Alice"   # str
+vek   = 16        # int
+  \end{lstlisting}
+
+  \pause
+  \begin{alertblock}{Pozor}
+    \pyinline{"16"} $\neq$ \pyinline{16} \quad — jedno je text, druhé číslo.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Spojování řetězců}
+
+  Řetězce lze spojovat operátorem \pyinline{+}:
+
+  \begin{lstlisting}
+jmeno = "Alice"
+pozdrav = "Ahoj, " + jmeno + "!"
+display.scroll(pozdrav)   # zobrazí: Ahoj, Alice!
+  \end{lstlisting}
+
+  \pause\bigskip
+  Co když chceme přidat číslo?
+
+  \begin{lstlisting}
+vek = 16
+display.scroll("Věk: " + vek)   # CHYBA!
+  \end{lstlisting}
+
+  \pause
+  \begin{exampleblock}{Řešení: \texttt{str()}}
+    \begin{lstlisting}
+display.scroll("Věk: " + str(vek))   # OK
+    \end{lstlisting}
+    \pyinline{str()} převede číslo na text.
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Digitální vizitka}
+
+  \begin{lstlisting}
+from microbit import *
+
+jmeno = "Alice"
+trida = "1.A"
+hobby = "fotbal"
+
+zprava = jmeno + ", " + trida + ", " + hobby
+display.scroll(zprava)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item Proměnné definujeme \textbf{na začátku} — přehledné, snadno měnitelné.
+    \item Zprávu sestavíme \textbf{spojením} — program nezávisí na konkrétních hodnotách.
+  \end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] Proměnná = pojmenované úložiště hodnoty
+    \item[\checkmark] Přiřazení: \pyinline{jmeno = "Alice"} — čteme zprava doleva
+    \item[\checkmark] Typ \pyinline{str} — text v uvozovkách
+    \item[\checkmark] Typ \pyinline{int} — celé číslo bez uvozovek
+    \item[\checkmark] \pyinline{"16"} $\neq$ \pyinline{16}
+    \item[\checkmark] Spojování řetězců operátorem \pyinline{+}
+    \item[\checkmark] Převod čísla na text: \pyinline{str(vek)}
+  \end{itemize}
+\end{frame}
+
+\end{document}

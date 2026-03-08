@@ -1,0 +1,100 @@
+% pracovni_list.tex -- Lekce 02: Proměnné a typy
+\newcommand{\lekce}{Lekce 02 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 02: Proměnné a typy}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Místo toho, abychom vždy psali hodnotu přímo do příkazu, můžeme ji pojmenovat
+a uložit do \textbf{proměnné}. Program pak pracuje se jménem — a hodnotu
+stačí změnit na jednom místě.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Proměnná se jménem]
+
+Proměnná funguje jako krabice s nálepkou: nálepka je \emph{jméno proměnné},
+obsah krabice je \emph{hodnota}.
+
+\begin{lstlisting}
+from microbit import *
+
+jmeno = "Alice"
+display.scroll(jmeno)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program do Thonny a spusť ho (F5).
+        Co se zobrazí na displeji?
+  \item Změň hodnotu proměnné \pyinline{jmeno} na své vlastní jméno.
+        Spusť znovu — všimni si, že příkaz \pyinline{display.scroll} jsi nemusel měnit.
+  \item Přidej další proměnnou \pyinline{trida = "1.A"} a zobraz ji po jménu
+        (každou zvlášť na dvou řádcích kódu).
+\end{enumerate}
+
+\odpoved[2cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40, fonttitle=\small\bfseries,
+                  title=Typy hodnot]
+  \small
+  Každá hodnota má svůj \textbf{typ}:
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{str} (string) — text, vždy v uvozovkách: \pyinline{"Alice"}, \pyinline{"1.A"}
+    \item \pyinline{int} (integer) — celé číslo, bez uvozovek: \pyinline{16}, \pyinline{2025}
+  \end{itemize}
+  \pyinline{"16"} a \pyinline{16} jsou různé věci — jedno je text, druhé číslo!
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Čísla a text dohromady]
+
+Proměnné různých typů lze kombinovat, ale je potřeba dávat pozor.
+
+\begin{lstlisting}
+from microbit import *
+
+jmeno = "Alice"
+vek = 16
+
+display.scroll(jmeno + " " + str(vek))
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a spusť ho. Co se zobrazí?
+  \item Co dělá \pyinline{str(vek)}? Zkus \pyinline{str()} odstranit a spusť program.
+        Co se stane a proč?
+\end{enumerate}
+
+\odpoved[3cm]
+
+\begin{tcolorbox}[colback=yellow!12, colframe=orange!70!black,
+                  fonttitle=\small\bfseries, title=Chyba: TypeError]
+  \small
+  Nelze přímo spojit text a číslo: \pyinline{"Věk: " + 16} způsobí chybu \texttt{TypeError}.\\
+  Řešení: převést číslo na text pomocí \pyinline{str()}: \pyinline{"Věk: " + str(16)}.
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Digitální vizitka]
+
+Vytvoř program, který na displeji skroluje tvou „vizitku" — krátkou zprávu,
+která tě představí. Použij alespoň tři proměnné dle vlastního výběru
+(jméno, třída, věk, město, hobby, oblíbená hra\ldots).
+
+Všechny proměnné definuj na začátku programu a zprávu sestav spojením pomocí~\pyinline{+}.
+
+\odpoved[5cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}
