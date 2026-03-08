@@ -1,0 +1,22 @@
+# LaTeX pomocne soubory
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bcf
+*.run.xml
+*.blg
+*.bbl
+*.nav
+*.snm
+*.vrb
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
