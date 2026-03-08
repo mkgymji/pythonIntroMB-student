@@ -1,0 +1,176 @@
+% prezentace.tex -- Lekce 03: Podmínky
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 03: Podmínky}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Podmínka v životě}
+
+  Rozhodování podle podmínek děláme pořád:
+
+  \bigskip
+  \begin{center}
+  \begin{tikzpicture}[
+    box/.style={draw=microbit-blue, fill=microbit-lightblue,
+                rounded corners=4pt, minimum width=3.8cm,
+                minimum height=0.8cm, font=\small, align=center},
+    diamond/.style={draw=microbit-blue, fill=yellow!20,
+                    shape=diamond, aspect=2.5,
+                    minimum width=4cm, font=\small, align=center},
+    arr/.style={->, thick, microbit-blue}
+  ]
+    \node[box] (start) at (0,0) {Jdu ven};
+    \node[diamond] (cond) at (0,-1.6) {Prší?};
+    \node[box] (yes) at (-2.8,-3.2) {Vezmu\\deštník};
+    \node[box] (no)  at ( 2.8,-3.2) {Deštník\\nechám doma};
+    \draw[arr] (start) -- (cond);
+    \draw[arr] (cond) -- node[left,font=\footnotesize] {Ano} (yes);
+    \draw[arr] (cond) -- node[right,font=\footnotesize] {Ne} (no);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Podmínka v Pythonu: \texttt{if / else}}
+
+  \begin{lstlisting}
+if podminka:
+    # co se stane, kdyz je podminka splnena
+else:
+    # co se stane jinak
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item Za \pyinline{if} a \pyinline{else} musí být \textbf{dvojtečka}
+    \item Vnitřní příkazy musí být \textbf{odsazeny} (Tab nebo 4 mezery)
+    \item Odsazení = součást jazyka — Python ho vyžaduje
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{alertblock}{Nejčastější chyba}
+    Zapomenutá dvojtečka nebo špatné odsazení → \texttt{IndentationError}.\\
+    Thonny odsazuje automaticky po dvojtečce — nechej ho pracovat.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{True a False}
+
+  Podmínka musí být buď \pojem{True} (pravda) nebo \pojem{False} (nepravda).
+
+  \bigskip
+  Tlačítko na micro:bitu vrací právě tyto hodnoty:
+
+  \begin{lstlisting}
+button_a.is_pressed()   # True, kdyz je stisknuto
+                        # False, kdyz neni
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{True (pravda)}
+        Podmínka je splněna.\\
+        Provede se blok za \pyinline{if}.
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{False (nepravda)}
+        Podmínka není splněna.\\
+        Provede se blok za \pyinline{else}.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{while True:} — program, který běží pořád}
+
+  Bez smyčky by se tlačítko zkontrolovalo jen jednou.\\
+  Přidáme \pyinline{while True:} — program se \textbf{opakuje donekonečna}:
+
+  \begin{lstlisting}
+from microbit import *
+
+while True:
+    if button_a.is_pressed():
+        display.show(Image.HEART)
+    else:
+        display.show(Image.SAD)
+  \end{lstlisting}
+
+  \bigskip
+  \textcolor{gray}{\small
+    \pyinline{while True:} je speciální případ cyklu — podrobně v příští lekci.\\
+    Zastavení: tlačítko \textbf{Stop} v Thonny nebo \textbf{Reset} na micro:bitu.
+  }
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Více větví: \texttt{if / elif / else}}
+
+  \pyinline{elif} = „jinak jestliže" — přidáme tolik větví, kolik potřebujeme:
+
+  \begin{lstlisting}
+while True:
+    if button_a.is_pressed():
+        display.show(Image.HAPPY)
+    elif button_b.is_pressed():
+        display.show(Image.ANGRY)
+    else:
+        display.show(Image.ASLEEP)
+  \end{lstlisting}
+
+  \bigskip
+  Python testuje podmínky \textbf{odshora dolů} a provede první, která platí.
+  Zbytek přeskočí.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Obě tlačítka najednou: \texttt{and}}
+
+  Klíčové slovo \pojem{and} spojí dvě podmínky — obě musí platit:
+
+  \begin{lstlisting}
+while True:
+    if button_a.is_pressed() and button_b.is_pressed():
+        display.scroll("Obe!")
+    elif button_a.is_pressed():
+        display.show(Image.ARROW_W)
+    elif button_b.is_pressed():
+        display.show(Image.ARROW_E)
+    else:
+        display.show(Image.DIAMOND_SMALL)
+  \end{lstlisting}
+
+  \pause\bigskip
+  \begin{alertblock}{Proč musí být \texttt{and} jako první?}
+    Kdybychom dali \pyinline{and} větev na konec, podmínka \pyinline{button_a.is_pressed()}
+    by ji předběhla a nikdy bychom se tam nedostali.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{if podminka:} — provede blok, je-li podmínka \pyinline{True}
+    \item[\checkmark] \pyinline{else:} — provede se, když podmínka neplatí
+    \item[\checkmark] \pyinline{elif podminka:} — další větev podmínky
+    \item[\checkmark] \pyinline{True} / \pyinline{False} — výsledek podmínky
+    \item[\checkmark] \pyinline{button_a.is_pressed()} — vrací \pyinline{True} nebo \pyinline{False}
+    \item[\checkmark] \pyinline{and} — obě podmínky musí platit zároveň
+    \item[\checkmark] \pyinline{while True:} — program běží a kontroluje donekonečna
+    \item[\checkmark] Odsazení a dvojtečka jsou povinné — Python je vyžaduje
+  \end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,119 @@
+% pracovni_list.tex -- Lekce 03: Podmínky
+\newcommand{\lekce}{Lekce 03 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 03: Podmínky}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Micro:bit má dvě tlačítka — A a B. Dnes je naučíme \emph{reagovat}:
+co se stane, když tlačítko stiskneme, a co se stane, když nestiskneme.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Jestliže stiskneš A...]
+
+Přečti si program a předpověz, co udělá. Pak ho zadej do Thonny a ověř.
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    if button_a.is_pressed():
+        display.show(Image.HEART)
+    else:
+        display.show(Image.SAD)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Co zobrazí micro:bit, když \textbf{držíš} tlačítko A?
+  \item Co zobrazí, když \textbf{nedržíš} nic?
+  \item Co dělá řádek \pyinline{while True:}? (Zkus program zastavit
+        tlačítkem \textbf{Stop} v Thonny — co se stane?)
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=Klíčové pojmy]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{button_a.is_pressed()} vrací \pyinline{True} (je stisknuto)
+          nebo \pyinline{False} (není).
+    \item \pyinline{if podmínka:} — provede odsazený blok, jen když je podmínka \pyinline{True}.
+    \item \pyinline{else:} — provede se, když podmínka \pyinline{False}.
+    \item \pyinline{while True:} — opakuje blok donekonečna (detaily příště).
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Tlačítko A nebo B?]
+
+Rozšiř program tak, aby reagoval i na tlačítko B.
+Doplň chybějící řádky (\texttt{???}) a program spusť:
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    if button_a.is_pressed():
+        display.show(Image.HAPPY)
+    elif ???:
+        display.show(Image.ANGRY)
+    else:
+        display.show(Image.ASLEEP)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Doplň podmínku pro tlačítko B na místě \pyinline{???}.
+  \item Co se zobrazí, když nedržíš žádné tlačítko?
+  \item Zkus zaměnit pořadí \pyinline{if} a \pyinline{elif} — změní se chování?
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Vlastní reakce]
+
+Navrhni a naprogramuj vlastní sadu reakcí na tlačítka. Podmínky musí pokrývat
+čtyři situace: jen A, jen B, obě najednou, žádné.
+
+\begin{tcolorbox}[colback=yellow!12, colframe=orange!70!black,
+                  fonttitle=\small\bfseries, title=Tip: obě tlačítka najednou]
+  \small
+  Pomocí klíčového slova \pyinline{and} lze zkombinovat dvě podmínky:\\[4pt]
+  \pyinline{if button_a.is_pressed() and button_b.is_pressed():}\\[4pt]
+  Tato větev musí být jako \textbf{první} — proč? (Zkus ji přesunout na konec a sleduj chování.)
+\end{tcolorbox}
+
+\medskip
+Naplánuj si program předem — vyplň tabulku:
+
+\medskip
+\begin{center}
+\begin{tabular}{lp{7cm}}
+  \toprule
+  \textbf{Situace} & \textbf{Reakce micro:bitu (obrázek / text)} \\
+  \midrule
+  Tlačítko A & \\[8pt]
+  Tlačítko B & \\[8pt]
+  Obě tlačítka & \\[8pt]
+  Žádné tlačítko & \\[8pt]
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+Pak program napiš, spusť a případně uprav.
+Výsledný kód ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

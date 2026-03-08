@@ -63,11 +63,14 @@
 }
 
 % --- Zvýraznění pojmů ---
+% underscore package: _ funguje normálně v textovém módu (texttt, pyinline)
+\usepackage{underscore}
 \newcommand{\pojem}[1]{\textbf{\textcolor{microbit-blue}{#1}}}
 \newcommand{\pyinline}[1]{\texttt{#1}}
 
 % --- Grafika a diagramy ---
 \usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
 
 % --- Ostatní ---
 \usepackage{graphicx}
