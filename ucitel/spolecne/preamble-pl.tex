@@ -64,7 +64,7 @@
     colback=task-bg,
     colframe=microbit-blue,
     fonttitle=\bfseries,
-    title=Úkol~\theukol\ifx\relax#1\relax\else{: #1}\fi,
+    title={Úkol~\theukol\ifx\relax#1\relax\else{: #1}\fi},
     breakable,
     left=6pt, right=6pt, top=4pt, bottom=4pt
   ]%
@@ -73,7 +73,7 @@
 }
 
 % Inline kód
-\newcommand{\pyinline}[1]{\lstinline[basicstyle=\ttfamily]|#1|}
+\newcommand{\pyinline}[1]{\texttt{#1}}
 
 % Místo pro odpověď studenta
 \newcommand{\odpoved}[1][3cm]{%

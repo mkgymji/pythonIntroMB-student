@@ -5,49 +5,44 @@
 \begin{document}
 
 \begin{center}
-  {\Large\bfseries\textcolor{microbit-blue}{Lekce 01: Seznámení s micro:bitem}}\\[4pt]
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 01: Micro:bit říká ahoj}}\\[4pt]
   {\large Pracovní list}
 \end{center}
 
-\medskip
-
-Micro:bit je malý programovatelný počítač s displejem z 25 LED diod, dvěma tlačítky,
-a celou řadou senzorů. Dnes ho poprvé připojíme k počítači a napíšeme první Python program.
+\medskip\noindent
+Micro:bit je kapesní počítač s displejem z 25~LED diod. Budeme ho programovat
+v~jazyce Python a první věc, co ho naučíme, je představit se světu.
 
 % ------------------------------------------------------------------
 \begin{ukol}[Připrav micro:bit]
 
-Než budeš moci psát programy, micro:bit potřebuje správný software (firmware).
-Protože micro:bity sdílí více skupin, je možné, že na něm firmware chybí nebo je jiný.
+Micro:bity sdílíme mezi skupinami. Pokaždé, když si vezmeš micro:bit poprvé,
+zkontroluj, zda má správný firmware (software, který Pythonu rozumí).
 
 \textbf{Postup:}
 \begin{enumerate}
-  \item Připoj micro:bit k počítači pomocí USB kabelu.
-  \item Otevři \textbf{Thonny} (Start → Thonny nebo ikona na ploše).
-  \item Zvol \textbf{Nástroje → Nastavení → Interpreter}.
-  \item Z rozbalovacího menu vyber \uv{MicroPython (BBC micro:bit)}.
-  \item Pokud se v dolním panelu (Shell) zobrazí výzva \texttt{>>>}, firmware je v pořádku.
-        Pokud Thonny nabídne instalaci MicroPythonu — klikni \textbf{Instalovat}.
-  \item Ověř: po instalaci by se mělo v dolním panelu zobrazit \texttt{MicroPython v...}
+  \item Připoj micro:bit k počítači USB kabelem.
+  \item Otevři \textbf{Thonny}.
+  \item Otevři nastavení: \textbf{Nástroje → Nastavení → Interpreter}.
+  \item Z nabídky vyber \textbf{MicroPython (BBC micro:bit)}.
+  \item Klikni na \textbf{Nainstalovat nebo aktualizovat MicroPython} a potvrď instalaci.
+  \item Po instalaci klikni \textbf{OK}. V dolním panelu Thonny by se mělo zobrazit:\\
+        \texttt{MicroPython v...\ on micro:bit}
 \end{enumerate}
 
-\begin{tcolorbox}[colback=yellow!15, colframe=orange!80, title=Poznámka]
-  REPL (\texttt{>>>} v dolním panelu) slouží k rychlému vyzkoušení příkazů — jako kalkulačka.
-  My budeme psát programy do horního okna a spouštět je celé najednou.
+\begin{tcolorbox}[colback=yellow!12, colframe=orange!70!black,
+                  fonttitle=\small\bfseries, title=Proč to dělám?]
+  \small
+  Jiná skupina mohla micro:bit použít s jiným softwarem — firmware se prostě
+  přepíše. Není to chyba, je to normální. Zabere to asi 10~sekund.
 \end{tcolorbox}
 
 \end{ukol}
 
 % ------------------------------------------------------------------
-\begin{ukol}[První program]
+\begin{ukol}[Ahoj, světe!]
 
-Napiš program, který na displeji micro:bitu zobrazí tvé jméno nebo pozdrav.
-
-\textbf{Postup:}
-\begin{enumerate}
-  \item V Thonny klikni do horního (prázdného) okna.
-  \item Napiš program:
-\end{enumerate}
+Napíšeme první program. V~Thonny klikni do horního (prázdného) okna a zadej:
 
 \begin{lstlisting}
 from microbit import *
@@ -55,48 +50,73 @@ from microbit import *
 display.scroll("Ahoj!")
 \end{lstlisting}
 
-\begin{enumerate}[resume]
-  \item Spusť program zeleným tlačítkem \textbf{Run} nebo klávesou \textbf{F5}.
-  \item Sleduj displej micro:bitu.
+Spusť program klávesou \textbf{F5} (nebo tlačítkem \textbf{Run} v~nástrojové liště).
+Sleduj displej micro:bitu.
+
+\bigskip\noindent
+\textbf{Teď to uprav:}
+\begin{enumerate}
+  \item Změň text \pyinline{"Ahoj!"} na své jméno. Spusť znovu.
+  \item Nahraď \pyinline{display.scroll} za \pyinline{display.show} a spusť.
+        Co se liší?
 \end{enumerate}
 
-\medskip
-\textbf{Úpravy — zkus sám:}
-\begin{itemize}
-  \item Změň text v uvozovkách na své jméno.
-  \item Místo \pyinline{display.scroll()} zkus \pyinline{display.show()}. Co se liší?
-\end{itemize}
+\odpoved[2.5cm]
 
-\odpoved[2cm]
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40, fonttitle=\small\bfseries,
+                  title=Co dělají tyto příkazy?]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{display.scroll("text")} — text projede přes displej jako
+          běžící nápis (skroluje).
+    \item \pyinline{display.show("A")} — zobrazí jeden znak nebo obrázek najednou.
+  \end{itemize}
+\end{tcolorbox}
 
-Co dělá příkaz \pyinline{display.scroll()}? Popiš vlastními slovy:
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Obrázky]
+
+Micro:bit má sadu připravených obrázků. Zkus:
+
+\begin{lstlisting}
+from microbit import *
+
+display.show(Image.HEART)
+\end{lstlisting}
+
+Vyzkoušej i další: \pyinline{Image.HAPPY}, \pyinline{Image.SAD},
+\pyinline{Image.SURPRISED}, \pyinline{Image.PACMAN}, \pyinline{Image.GHOST}.
+
+\bigskip\noindent
+\textbf{Bonus:} Zobraz za sebou dva obrázky s pauzou mezi nimi.
+Napoví ti funkce \pyinline{sleep(1000)} — čeká 1000~milisekund (= 1~sekundu).
 
 \odpoved[2cm]
 
 \end{ukol}
 
 % ------------------------------------------------------------------
-\begin{ukol}[Připrav program pro odevzdání]
+\begin{ukol}[Připrav program k odevzdání]
 
-Uprav program tak, aby scrolloval tvé jméno a za ním větu, která tě popisuje
-(škola, věk, koníček — cokoliv).
-
-Výsledný program ulož (\textbf{Soubor → Uložit jako}) a připrav screenshot nebo
-fotku/video micro:bitu při běhu — budeš je odevzdávat do Google Classroom.
+Uprav program tak, aby skroloval tvé jméno nebo větu, která tě popisuje.
+Ulož soubor (\textbf{Soubor → Uložit jako}) a připrav ho k odevzdání do~Google Classroom:
+odevzdáš \textbf{zdrojový kód} nebo \textbf{fotografii / krátké video} micro:bitu při běhu.
 
 \end{ukol}
 
 % ------------------------------------------------------------------
 \vspace{\fill}
-\begin{tcolorbox}[colback=gray!8, colframe=gray!40, title=Doplněk: Thonny doma]
+\begin{tcolorbox}[colback=gray!6, colframe=gray!35,
+                  fonttitle=\small\bfseries, title=Thonny doma]
   \small
-  Chceš programovat micro:bit i doma? Postup:
+  Chceš programovat micro:bit i doma? Thonny má podporu micro:bitu vestavěnou.
   \begin{enumerate}
-    \item Stáhni Thonny z \url{https://thonny.org} a nainstaluj.
-    \item Spusť Thonny, jdi do \textbf{Nástroje → Spravovat pluginy}, vyhledej
-          a nainstaluj \texttt{thonny-microbit}.
-    \item Restart Thonny, připoj micro:bit, nastav interpreter
-          na \uv{MicroPython (BBC micro:bit)} — stejně jako ve škole.
+    \item Stáhni a nainstaluj Thonny z \url{https://thonny.org}.
+    \item Připoj micro:bit, nastav interpreter na \textbf{MicroPython (BBC micro:bit)}\\
+          — stejný postup jako v~úkolu~1.
+    \item Hotovo. Žádné další pluginy instalovat nemusíš.
   \end{enumerate}
 \end{tcolorbox}
 
