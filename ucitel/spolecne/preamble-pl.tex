@@ -1,0 +1,100 @@
+% preamble-pl.tex -- sdílená preamble pro pracovní listy
+% Includuje se z ucitel/lekceXX/pracovni_list.tex jako:
+%   \input{../spolecne/preamble-pl.tex}
+
+\documentclass[a4paper,12pt]{article}
+
+% --- Jazyk a font ---
+\usepackage{polyglossia}
+\setmainlanguage{czech}
+\usepackage{fontspec}
+
+% --- Okraje ---
+\usepackage[top=20mm, bottom=20mm, left=22mm, right=22mm]{geometry}
+
+% --- Česky korektní uvozovky ---
+\usepackage{csquotes}
+\newcommand{\uv}[1]{\enquote{#1}}
+
+% --- Typografie ---
+\usepackage{microtype}
+\usepackage{parskip}          % odstavce odděleny mezerou, ne odsazením
+
+% --- Barvy a grafika ---
+\usepackage[table]{xcolor}
+\definecolor{microbit-blue}{HTML}{1E4D8C}
+\definecolor{code-bg}{HTML}{F5F5F5}
+\definecolor{task-bg}{HTML}{EEF4FF}
+
+% --- Tabulky ---
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% --- Zdrojový kód (Python) ---
+\usepackage{listings}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{code-bg},
+  frame=single,
+  framerule=0pt,
+  rulecolor=\color{gray!30},
+  xleftmargin=6pt,
+  xrightmargin=6pt,
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{microbit-blue}\bfseries,
+  stringstyle=\color{teal},
+  commentstyle=\color{gray}\itshape,
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {ů}{{\r{u}}}1 {č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {Č}{{\v{C}}}1 {Š}{{\v{S}}}1 {Ž}{{\v{Z}}}1 {ň}{{\v{n}}}1 {ř}{{\v{r}}}1,
+}
+
+% --- Zadání úkolů ---
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newcounter{ukol}[section]
+\newenvironment{ukol}[1][]{%
+  \stepcounter{ukol}%
+  \begin{tcolorbox}[
+    colback=task-bg,
+    colframe=microbit-blue,
+    fonttitle=\bfseries,
+    title=Úkol~\theukol\ifx\relax#1\relax\else{: #1}\fi,
+    breakable,
+    left=6pt, right=6pt, top=4pt, bottom=4pt
+  ]%
+}{%
+  \end{tcolorbox}%
+}
+
+% Inline kód
+\newcommand{\pyinline}[1]{\lstinline[basicstyle=\ttfamily]|#1|}
+
+% Místo pro odpověď studenta
+\newcommand{\odpoved}[1][3cm]{%
+  \vspace{#1}%
+}
+
+% --- Záhlaví / zápatí ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\textcolor{microbit-blue}{\textbf{Úvod do Pythonu na Micro:bitu}}}
+\fancyhead[R]{\small\textcolor{gray}{\lekce}}
+\fancyfoot[C]{\small\thepage}
+
+% --- Ostatní ---
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=microbit-blue,
+  urlcolor=microbit-blue,
+}

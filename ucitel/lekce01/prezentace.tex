@@ -1,0 +1,223 @@
+% prezentace.tex -- Lekce 01: Seznámení s micro:bitem a MicroPythonem
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 01: Seznámení s micro:bitem}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co je micro:bit?}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      Malý programovatelný počítač navržený pro výuku:
+      \begin{itemize}
+        \item \textbf{Displej:} 5 × 5 LED diod
+        \item \textbf{Tlačítka:} A a B
+        \item \textbf{Senzory:} teplota, pohyb (akcelerometr), magnetismus
+        \item \textbf{Zvuk:} reproduktor a mikrofon (micro:bit v2)
+        \item \textbf{Komunikace:} Bluetooth, radio, USB
+      \end{itemize}
+      \medskip
+      Programuje se v \textbf{MicroPythonu} — zjednodušené verzi Pythonu.
+    \end{column}
+    \begin{column}{0.35\textwidth}
+      \begin{center}
+        \begin{tikzpicture}
+          % Jednoduchá schematická kresba micro:bitu
+          \draw[rounded corners=4pt, thick, fill=microbit-lightblue]
+            (0,0) rectangle (3,4);
+          % LED matrix
+          \foreach \x in {0.4,0.85,1.3,1.75,2.2}
+            \foreach \y in {2.2,2.6,3.0,3.4,3.8}
+              \fill[microbit-blue] (\x,\y) circle (0.12);
+          % Tlačítka
+          \draw[fill=gray!30, rounded corners=2pt] (0.1,1.2) rectangle (0.7,1.6);
+          \node at (0.4,1.4) {\tiny A};
+          \draw[fill=gray!30, rounded corners=2pt] (2.3,1.2) rectangle (2.9,1.6);
+          \node at (2.6,1.4) {\tiny B};
+          % USB
+          \draw[fill=gray!50] (1.1,0) rectangle (1.9,0.3);
+          \node[font=\tiny] at (1.5,0.15) {USB};
+        \end{tikzpicture}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Vývojové prostředí: Thonny}
+  \pojem{Thonny} je program, ve kterém budeme psát a spouštět kód.
+
+  \bigskip
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Horní okno — editor}
+        Zde píšeme \textbf{program} (skript).\\
+        Spuštění: tlačítko \textbf{Run} nebo \textbf{F5}.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Dolní okno — Shell (REPL)}
+        Zde vidíme výstupy programu\\
+        a můžeme psát příkazy \uv{za jízdy}.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  \textbf{Nastavení interpretu:} Nástroje → Nastavení → Interpreter
+  → \uv{MicroPython (BBC micro:bit)}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Firmware — proč a jak}
+  \pojem{Firmware} je software přímo v micro:bitu — bez něj micro:bit pythonu nerozumí.
+
+  \bigskip
+  Micro:bity \textbf{sdílí více skupin} → firmware může chybět nebo být jiný.
+
+  \medskip
+  \begin{block}{Postup (jednou za začátku hodiny)}
+    \begin{enumerate}
+      \item Připoj micro:bit přes USB
+      \item Nastav interpreter v Thonny
+      \item Pokud Thonny nabídne instalaci → \textbf{klikni Instalovat}
+      \item Ověř: v dolním panelu se zobrazí \texttt{MicroPython v...}
+    \end{enumerate}
+  \end{block}
+
+  \medskip
+  \textcolor{gray}{\small Instalace trvá asi 10 sekund. Není to chyba — je to normální postup.}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co je program?}
+  \begin{columns}
+    \begin{column}{0.55\textwidth}
+      \pojem{Program} (nebo \pojem{skript}) je posloupnost příkazů,
+      které počítač vykoná jeden po druhém — odshora dolů.
+
+      \bigskip
+      Počítač nedělá nic \uv{navíc} — dělá přesně to, co napíšeme.
+
+      \bigskip
+      \textcolor{gray}{\small Skript = program uložený v textovém souboru.
+      V Pythonu mají soubory příponu \texttt{.py}}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \begin{tikzpicture}
+        \foreach \i/\cmd in {
+          0/{příkaz 1},
+          1/{příkaz 2},
+          2/{příkaz 3}
+        }{
+          \draw[fill=microbit-lightblue, rounded corners=3pt]
+            (0, -\i*1.1) rectangle (3.2, -\i*1.1+0.8);
+          \node[font=\small] at (1.6, -\i*1.1+0.4) {\cmd};
+          \ifnum\i<2
+            \draw[->, thick, microbit-blue] (1.6,-\i*1.1) -- (1.6,-\i*1.1-0.25);
+          \fi
+        }
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Funkce a její volání}
+  \pojem{Funkce} je pojmenovaná akce — dáme jí jméno a zavoláme ji.
+
+  \bigskip
+  \begin{lstlisting}
+display.scroll("Ahoj!")
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item \pyinline{display.scroll} — \pojem{jméno funkce}
+          (\uv{na displeji: rolovej})
+    \item \pyinline{( )} — závorky říkají \uv{tuto funkci teď zavolej}
+    \item \pyinline{"Ahoj!"} — \pojem{argument}: co funkci předáme
+  \end{itemize}
+
+  \bigskip
+  \textcolor{gray}{\small Analogie: funkce je jako tlačítko na mikrovlnce.
+  Argument je čas, který nastavíme.}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Náš první program}
+
+  \begin{lstlisting}
+from microbit import *
+
+display.scroll("Ahoj!")
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item \pyinline{from microbit import *} — načti všechny funkce pro micro:bit
+          (tímto začíná každý program)
+    \item \pyinline{display.scroll("Ahoj!")} — rolovej text přes displej
+  \end{itemize}
+
+  \pause
+  \bigskip
+  \begin{block}{Vyzkoušej}
+    Co se stane, když použiješ \pyinline{display.show()} místo \pyinline{display.scroll()}?
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{show} vs.\ \texttt{scroll}}
+
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\pyinline{display.show("A")}}
+        Zobrazí \textbf{jeden znak} (nebo obrázek) najednou.\\[4pt]
+        Rychlé, statické.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\pyinline{display.scroll("Ahoj!")}}
+        Roluje text přes displej\\
+        znak po znaku.\\[4pt]
+        Pomalejší, pro delší texty.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+
+  \begin{lstlisting}
+from microbit import *
+
+display.show(Image.HEART)   # ukaze obrazek srdce
+  \end{lstlisting}
+
+  \medskip
+  Micro:bit má předdefinované obrázky: \pyinline{Image.HEART}, \pyinline{Image.HAPPY},
+  \pyinline{Image.SAD}, \pyinline{Image.SURPRISED} \ldots
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Shrnutí — co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] Micro:bit = malý počítač s LED displejem, tlačítky a senzory
+    \item[\checkmark] Thonny = prostředí pro psaní a spouštění programů
+    \item[\checkmark] Firmware = software v micro:bitu; sdílené micro:bity ho mohou potřebovat nainstalovat
+    \item[\checkmark] Program = posloupnost příkazů vykonaných odshora dolů
+    \item[\checkmark] Funkce = pojmenovaná akce; voláme ji závorkami
+    \item[\checkmark] Argument = hodnota, kterou funkci předáváme
+    \item[\checkmark] \pyinline{from microbit import *} — začíná každý program
+    \item[\checkmark] \pyinline{display.scroll()}, \pyinline{display.show()} — zobrazení na displeji
+  \end{itemize}
+\end{frame}
+
+\end{document}

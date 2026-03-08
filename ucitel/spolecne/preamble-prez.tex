@@ -1,0 +1,75 @@
+% preamble-prez.tex -- sdílená preamble pro prezentace (beamer)
+% Includuje se z ucitel/lekceXX/prezentace.tex jako:
+%   \input{../spolecne/preamble-prez.tex}
+
+\documentclass[aspectratio=169]{beamer}
+
+% --- Jazyk a font ---
+\usepackage{polyglossia}
+\setmainlanguage{czech}
+\usepackage{fontspec}
+
+% --- Téma ---
+\usetheme{default}
+\usecolortheme{default}
+
+\definecolor{microbit-blue}{HTML}{1E4D8C}
+\definecolor{microbit-lightblue}{HTML}{D6E4F7}
+\definecolor{code-bg}{HTML}{F0F0F0}
+
+\setbeamercolor{frametitle}{bg=microbit-blue, fg=white}
+\setbeamercolor{title}{fg=microbit-blue}
+\setbeamercolor{block title}{bg=microbit-blue, fg=white}
+\setbeamercolor{block body}{bg=microbit-lightblue}
+\setbeamercolor{itemize item}{fg=microbit-blue}
+\setbeamercolor{itemize subitem}{fg=microbit-blue!70}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=6pt]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\textcolor{gray}{\small Úvod do Pythonu na Micro:bitu}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,rightskip=6pt,right]{date in head/foot}%
+      \usebeamerfont{date in head/foot}\textcolor{gray}{\small\insertframenumber\,/\,\inserttotalframenumber}
+    \end{beamercolorbox}}%
+}
+
+% --- Česky korektní uvozovky ---
+\usepackage{csquotes}
+\newcommand{\uv}[1]{\enquote{#1}}
+
+% --- Zdrojový kód (Python) ---
+\usepackage{listings}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{code-bg},
+  frame=single,
+  framerule=0pt,
+  xleftmargin=6pt,
+  xrightmargin=6pt,
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{microbit-blue}\bfseries,
+  stringstyle=\color{teal},
+  commentstyle=\color{gray}\itshape,
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {ů}{{\r{u}}}1 {č}{{\v{c}}}1 {š}{{\v{s}}}1 {ž}{{\v{z}}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {Č}{{\v{C}}}1 {Š}{{\v{S}}}1 {Ž}{{\v{Z}}}1 {ň}{{\v{n}}}1 {ř}{{\v{r}}}1,
+}
+
+% --- Zvýraznění pojmů ---
+\newcommand{\pojem}[1]{\textbf{\textcolor{microbit-blue}{#1}}}
+\newcommand{\pyinline}[1]{\texttt{#1}}
+
+% --- Grafika a diagramy ---
+\usepackage{tikz}
+
+% --- Ostatní ---
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=microbit-blue}

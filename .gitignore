@@ -17,6 +17,9 @@
 # macOS
 .DS_Store
 
+# Zkompilované PDF — verzují se jen v student/
+ucitel/**/*.pdf
+
 # Python
 __pycache__/
 *.pyc
