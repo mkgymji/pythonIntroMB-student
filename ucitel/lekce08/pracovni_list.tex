@@ -86,8 +86,15 @@ while True:
 % ------------------------------------------------------------------
 \begin{ukol}[Refaktoring]
 
-Vezmi libovolný program z~předchozích lekcí (teploměr, věštírna, jukebox\ldots)
-a přepiš ho pomocí funkcí.
+Vezmi jeden z~těchto programů z~předchozích lekcí a přepiš ho pomocí funkcí:
+
+\begin{itemize}
+  \item \textbf{Teploměr} (lekce~6) — funkce \pyinline{zobraz\_stav(teplota)} vrátí
+        správný obrázek podle pásma
+  \item \textbf{Věštírna} (lekce~5) — funkce \pyinline{vestein()} vrátí náhodnou odpověď
+  \item \textbf{Jukebox} (lekce~7) — funkce \pyinline{zahraj(melodie)} přehraje melodii
+        a zobrazí animaci
+\end{itemize}
 
 \medskip
 Podmínky:
@@ -116,7 +123,7 @@ Funkce může vracet nejen číslo, ale i celý seznam výsledků:
 from microbit import *
 import random
 
-def generuj_hody(pocet, strany=6):
+def generuj_hody(pocet, strany=6):   # strany=6 je vychozi hodnota parametru
     vysledky = []
     for i in range(pocet):
         vysledky.append(random.randint(1, strany))

@@ -32,8 +32,8 @@ while True:
   \item Co dělá \pyinline{sleep(500)}? Co se stane, když číslo změníš na \pyinline{100}?
         Na \pyinline{2000}?
   \item Co dělá \pyinline{display.clear()}?
-  \item Upravte program tak, aby srdce blikalo rychle třikrát, pak se na sekundu
-        zastavilo — a tak stále dokola. (Tip: vnořený \pyinline{for} cyklus.)
+  \item Přidej do programu podmínku: pokud je stisknuto tlačítko~A,
+        blikej rychleji (\pyinline{sleep(100)}), jinak pomalu (\pyinline{sleep(600)}).
 \end{enumerate}
 
 \odpoved[2cm]
@@ -143,6 +143,37 @@ Jak bys program upravil, aby se bod pohyboval tam a zpět?
 \odpoved[2.5cm]
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Vnořený cyklus — vzor blikání]
+
+\pojem{Vnořený cyklus} je cyklus uvnitř jiného cyklu.
+Vnitřní se provede celý pro každý krok vnějšího:
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    # Vnitrni for: 3x rychle blikni
+    for i in range(3):
+        display.show(Image.HEART)
+        sleep(100)
+        display.clear()
+        sleep(100)
+    # Pak pauza
+    sleep(1000)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program — srdce blikne třikrát, pak pauza, a tak dokola.
+  \item Změň \pyinline{range(3)} na \pyinline{range(5)} a kratší pauzu — co se změní?
+  \item Přidej druhý vzor: po třech rychlých bliknutích zobraz
+        \pyinline{Image.HAPPY} na 2~sekundy.
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{bonusukol}
 
 % ------------------------------------------------------------------
 \begin{bonusukol}[Animace řízená tlačítky]
