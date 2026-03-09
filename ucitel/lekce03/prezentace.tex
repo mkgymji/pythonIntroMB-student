@@ -16,17 +16,23 @@
 
   Rozhodování podle podmínek děláme pořád:
 
-  \bigskip
   \begin{center}
-  \begin{tikzpicture}[node distance=1.2cm]
-    \node[fc-start]                        (start) {Jdu ven};
-    \node[fc-decision, below=1.4cm of start] (cond)  {Prší?};
-    \node[fc-process,  left=2.2cm of cond] (yes)   {Vezmu\\deštník};
-    \node[fc-process,  right=2.2cm of cond](no)    {Deštník\\nechám doma};
+  \begin{tikzpicture}[node distance=0.9cm]
+    \node[fc-start]                          (start) {Jdu ven};
+    \node[fc-decision, below=1.0cm of start] (cond)  {Prší?};
+    \node[fc-process,  left=1.8cm of cond]  (yes)   {Vezmu\\deštník};
+    \node[fc-process,  right=1.8cm of cond] (no)    {Deštník\\nechám doma};
+    % join bod: na ose cond, pod úrovní větví
+    \coordinate (join) at ($(yes.south -| cond) + (0, -0.6)$);
+    \node[fc-start, below=0.15cm of join]    (end)   {Jdu na procházku};
 
     \draw[fc-arrow] (start) -- (cond);
-    \draw[fc-arrow] (cond)  -- node[above, font=\footnotesize] {Ano} (yes);
-    \draw[fc-arrow] (cond)  -- node[above, font=\footnotesize] {Ne}  (no);
+    \draw[fc-arrow] (cond) -- node[above, font=\footnotesize] {Ano} (yes);
+    \draw[fc-arrow] (cond) -- node[above, font=\footnotesize] {Ne}  (no);
+    % větve se spojí v join bodu (bez šipky), pak jedna šipka dolů
+    \draw[thick] (yes.south) |- (join);
+    \draw[thick] (no.south)  |- (join);
+    \draw[fc-arrow] (join) -- (end);
   \end{tikzpicture}
   \end{center}
 \end{frame}
