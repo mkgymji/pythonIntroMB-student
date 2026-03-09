@@ -17,11 +17,16 @@ Po lekci student:
 
 ### Výklad (12 min)
 Prezentace — klíčové body:
-1. Co je seznam — uspořádaná sada prvků v hranatých závorkách `[]`
-2. Indexování `[0]`, záporné indexy `[-1]`, délka `len()`
-3. Procházení `for prvek in seznam:` — opakování z lekce 04
-4. `import music` — přehrání předdefinované melodie (`music.NYAN` apod.)
-5. Notový zápis — formát `"C4:4"`, délky, pauzy `"R"`
+1. **Paradigmatický skok** — snímek „Co když potřebuji víc hodnot najednou?"
+   Ukázat kontrast: `jmeno = "Alice"` (jedna hodnota) vs. `jmena = ["Alice","Bob","Carla"]`
+   (kolekce). Nechat studenty chvíli pohledět na TikZ diagram s `jmena[0]`, `jmena[1]`, `jmena[2]`.
+   Pojmenovat explicitně: *„Tohle je nový druh proměnné — index je adresa v kolekci."*
+2. Syntaxe — hranaté závorky `[]`, různé typy prvků, propojení s lekce 04 a 05
+3. Indexování `[0]`, záporné indexy `[-1]`, délka `len()`
+4. Procházení `for prvek in seznam:` — opakování z lekce 04
+5. `import music` — přehrání předdefinované melodie (`music.NYAN` apod.)
+6. Notový zápis — formát `"C4:4"`, délky, pauzy `"R"`
+7. Pointovat propojení: **melodie = seznam not** — seznam a hudba jsou jedno
 
 ### Samostatná práce (28 min)
 Studenti pracují na pracovním listu.
@@ -31,6 +36,9 @@ Ukázka: jukebox s výběrem melodie tlačítky A/B. Žáci sdílí svou vlastn�
 
 ## Tipy
 
+- **Klíčový moment hodiny:** Snímek s kontrastem „dosud vs. nově" — nespěchat.
+  Studenti ho v lekci 04 a 05 viděli, ale neměli pojmenování. Teď dostávají rámec.
+  Dobře funguje otázka do třídy: *„Kde jsme seznam už použili?"* — sami najdou L04 a L05.
 - Připomíná seznamy z lekce 05 (`[Image.HAPPY, Image.SAD, ...]`) — napojit na to.
 - `import music` je nutný navíc — nestačí `from microbit import *`.
 - Micro:bit přehrává zvuk přes GPIO pin 0 (krokodýlky → sluchátka nebo reproduktor).

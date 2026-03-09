@@ -12,9 +12,56 @@
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}[fragile]{Co je seznam (list)?}
+\begin{frame}[fragile]{Co když potřebuji víc hodnot najednou?}
 
-  \pojem{Seznam} je uspořádaná sada hodnot uzavřená do hranatých závorek:
+  \begin{columns}[T]
+    \begin{column}{0.44\textwidth}
+      \begin{block}{Dosud — jedna hodnota}
+        \begin{lstlisting}
+jmeno   = "Alice"
+cislo   = 42
+obrazek = Image.HEART
+        \end{lstlisting}
+        \small Každá proměnná drží\\
+        \textbf{jednu} hodnotu.
+      \end{block}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \begin{exampleblock}{Nově — kolekce hodnot}
+        \begin{lstlisting}
+jmena = ["Alice","Bob","Carla"]
+obrazky = [Image.HAPPY,
+           Image.SAD,
+           Image.SURPRISED]
+        \end{lstlisting}
+        \small Jedna proměnná drží\\
+        \textbf{více hodnot najednou.}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+
+  \pause\bigskip
+  \begin{center}
+  \begin{tikzpicture}
+    \foreach \i/\val in {0/Alice, 1/Bob, 2/Carla} {
+      \draw[thick] (\i*2.7, 0) rectangle (\i*2.7+2.5, 0.75);
+      \node at (\i*2.7+1.25, 0.38) {\texttt{\val}};
+      \node[font=\footnotesize, text=microbit-blue] at (\i*2.7+1.25, -0.32)
+            {\texttt{jmena[\i]}};
+    }
+    \node[font=\small, left=4pt] at (0, 0.38) {\texttt{jmena}};
+  \end{tikzpicture}
+  \end{center}
+
+  \pause\medskip
+  K~jednotlivým prvkům přistupujeme přes \pojem{index} — číslo pozice.
+  \textbf{Indexy začínají od~0!}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Seznam v Pythonu — syntaxe}
+
+  Prvky mohou být jakéhokoliv typu — řetězce, čísla, obrázky\ldots
 
   \bigskip
   \begin{lstlisting}
@@ -24,19 +71,22 @@ obrazky = [Image.HAPPY, Image.SAD, Image.SURPRISED]
   \end{lstlisting}
 
   \bigskip
-  \begin{center}
-  \begin{tikzpicture}
-    \foreach \i/\val in {0/cervena, 1/zelena, 2/modra} {
-      \draw (\i*2.6, 0) rectangle (\i*2.6+2.4, 0.7);
-      \node at (\i*2.6+1.2, 0.35) {\texttt{\val}};
-      \node[font=\footnotesize, gray] at (\i*2.6+1.2, -0.3) {index \i};
-    }
-  \end{tikzpicture}
-  \end{center}
-
-  \bigskip
-  Prvky jsou číslované od~\pyinline{0}.
-  Připomíná \pyinline{random.choice(seznam)} z~lekce~5!
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Jak se vytvoří}
+        Hranaté závorky \pyinline{[]}\\
+        Prvky oddělené čárkou\\
+        Může být prázdný: \pyinline{[]}
+      \end{block}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \begin{block}{Už jsme ho viděli}
+        Lekce 4: \pyinline{[Image.HAPPY, \ldots]}\\
+        Lekce 5: \pyinline{random.choice(seznam)}\\
+        Teď ho konečně \textbf{poznáme pořádně}.
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % ------------------------------------------------------------------
@@ -192,13 +242,14 @@ if button_a.was_pressed():
 % ------------------------------------------------------------------
 \begin{frame}{Co jsme se naučili}
   \begin{itemize}
-    \item[\checkmark] Seznam \pyinline{[a, b, c]} — uspořádaná sada hodnot
+    \item[\checkmark] \pojem{Seznam} = proměnná s více hodnotami; přístup přes \pojem{index}
     \item[\checkmark] \pyinline{seznam[0]} — první prvek; \pyinline{seznam[-1]} — poslední
     \item[\checkmark] \pyinline{len(seznam)} — počet prvků
     \item[\checkmark] \pyinline{for prvek in seznam:} — procházení od začátku do konce
     \item[\checkmark] \pyinline{import music} — modul pro přehrávání zvuků
     \item[\checkmark] \pyinline{music.play(melodie)} — přehraje seznam not nebo předdefinovanou melodii
     \item[\checkmark] Notový formát \pyinline{"C4:4"} — nota, oktáva, délka
+    \item[\checkmark] Melodie je seznam řetězců — \textbf{seznam a hudba jsou jedno}
   \end{itemize}
 \end{frame}
 
