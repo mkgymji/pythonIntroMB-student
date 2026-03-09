@@ -1,0 +1,127 @@
+% pracovni_list.tex -- Lekce 09: Řetězce a radio
+\newcommand{\lekce}{Lekce 09 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 09: Řetězce a radio}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Řetězce jsou sekvence znaků — pracujeme s nimi podobně jako se seznamy.
+Modul \pyinline{radio} umožňuje micro:bitům komunikovat bezdrátově.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Řetězcové operace]
+
+Prozkoumejte řetězcové operace v Thonny — spusťte každý příkaz zvlášť
+a zapište výsledek.
+
+\begin{lstlisting}
+zprava = "Hello, Microbit!"
+
+print(len(zprava))
+print(zprava.upper())
+print(zprava.lower())
+print(zprava[0])
+print(zprava[-1])
+print("bit" in zprava)
+print("xyz" in zprava)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Doplň výsledky do tabulky:
+        \medskip
+
+        \begin{tabular}{ll}
+          \toprule
+          \textbf{Výraz} & \textbf{Výsledek} \\
+          \midrule
+          \pyinline{len(zprava)} & \hspace{4cm} \\[4pt]
+          \pyinline{zprava.upper()} & \\[4pt]
+          \pyinline{zprava[0]} & \\[4pt]
+          \pyinline{zprava[-1]} & \\[4pt]
+          \pyinline{"bit" in zprava} & \\[4pt]
+          \bottomrule
+        \end{tabular}
+
+  \item Proč \pyinline{zprava[0]} vrací \pyinline{"H"} a ne \pyinline{"e"}?
+  \item Jak bys zobrazil pouze první 3 znaky řetězce?
+        \textit{Tip: vyzkoušej \pyinline{zprava[0]}, \pyinline{zprava[1]}, \pyinline{zprava[2]}.}
+\end{enumerate}
+
+\odpoved[2cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=Řetězce a radio]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{len(s)} — délka řetězce; \pyinline{s[0]} — první znak; \pyinline{s[-1]} — poslední.
+    \item \pyinline{s.upper()} / \pyinline{s.lower()} — velká / malá písmena.
+    \item \pyinline{"abc" in s} — \pyinline{True}, pokud řetězec obsahuje podřetězec.
+    \item \pyinline{radio.on()} — nutné zapnout před použitím.
+    \item \pyinline{radio.receive()} vrátí \pyinline{None}, pokud žádná zpráva nečeká.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Radio ping-pong]
+
+\textbf{Pracujte ve dvojici — každý má jeden micro:bit.}\\
+Oba nahrajte stejný program a otestujte komunikaci.
+
+\begin{lstlisting}
+from microbit import *
+import radio
+
+radio.on()
+radio.config(channel=7)
+
+while True:
+    if button_a.was_pressed():
+        radio.send("Ping!")
+        display.show(Image.ARROW_E)
+
+    msg = radio.receive()
+    if msg is not None:
+        display.scroll(msg)
+
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Nahraj program na oba micro:bity a otestuj — slyší se navzájem?
+  \item Uprav program: místo \pyinline{"Ping!"} posílej své jméno stiskem A.
+  \item Přidej tlačítko B: pošle jinou zprávu (např.\ \pyinline{"Ahoj!"}).
+  \item Zkus změnit kanál na jeden micro:bitu — co se stane?
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Vlastní radio aplikace]
+
+Navrhni a naprogramuj aplikaci, kde dva micro:bity spolu komunikují.
+Vymysli si vlastní scénář — může to být hra, signalizace, kódovaná zpráva\ldots
+
+\medskip
+Podmínky:
+\begin{itemize}
+  \item oba micro:bity mají \textbf{stejný kanál}
+  \item komunikace probíhá \textbf{oběma směry} (oba posílají i přijímají)
+  \item použij alespoň \textbf{2 různé zprávy}
+\end{itemize}
+
+\odpoved[5cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

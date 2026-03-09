@@ -1,0 +1,108 @@
+% pracovni_list.tex -- Lekce 07: Seznamy a hudba
+\newcommand{\lekce}{Lekce 07 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 07: Seznamy a hudba}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+\pojem{Seznamy} uchovávají více hodnot najednou — prvky jsou číslovány od~0.
+Modul \pyinline{music} umožňuje přehrávat melodie jako seznam not.
+
+% ------------------------------------------------------------------
+\begin{ukol}[První melodie]
+
+Micro:bit přehraje předdefinovanou melodii po stisku tlačítka.
+
+\begin{lstlisting}
+from microbit import *
+import music
+
+while True:
+    if button_a.was_pressed():
+        music.play(music.BIRTHDAY)
+    sleep(50)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a stiskni tlačítko A — uslyšíš melodii?
+  \item Zkus zaměnit \pyinline{music.BIRTHDAY} za jinou:
+        \pyinline{music.NYAN}, \pyinline{music.FUNK}, \pyinline{music.DADADADUM}.
+  \item Přidej tlačítko B pro druhou melodii (použij \pyinline{elif}).
+  \item Co se stane, pokud stiskneš A a melodie stále hraje?
+        Jak bys program upravil, aby melodii přerušil?
+\end{enumerate}
+
+\odpoved[2cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=Seznamy a hudba]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{seznam[0]} — první prvek; \pyinline{seznam[-1]} — poslední prvek.
+    \item \pyinline{len(seznam)} — počet prvků v seznamu.
+    \item \pyinline{import music} — nutný navíc vedle \pyinline{from microbit import *}.
+    \item \pyinline{music.play(music.NYAN)} — přehraje předdefinovanou melodii.
+    \item \pyinline{music.play(seznam\_not)} — přehraje vlastní melodii ze seznamu.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Vlastní melodie]
+
+Vlastní melodii zapíšeme jako seznam řetězců — každá nota má formát \pyinline{"NOTA[OKTAVA]:DELKA"}.
+
+\begin{lstlisting}
+import music
+
+melodie = [
+    "C4:4", "C4:4", "G4:4", "G4:4",
+    "A4:4", "A4:4", "G4:2",
+    "R:2",
+    "F4:4", "F4:4", "E4:4", "E4:4",
+    "D4:4", "D4:4", "C4:2"
+]
+
+music.play(melodie)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej melodii a poslechni si, co hraje. Poznáš ji?
+  \item Přidej do melodie pomlku \pyinline{"R:4"} uprostřed — kde přesně a jak ovlivní zvuk?
+  \item Vymysli nebo najdi vlastní jednoduchou melodii (aspoň 8 not) a zapiš ji jako seznam.
+        Ověř, že hraje správně.
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Jukebox]
+
+Propoj seznamy, hudbu a tlačítka do jednoduchého jukeboxu.
+
+\medskip
+Podmínky:
+\begin{itemize}
+  \item program nabízí alespoň \textbf{2 různé melodie} — jedna na tlačítko A,
+        druhá na tlačítko B
+  \item alespoň jedna melodie musí být \textbf{vlastní seznam not}
+        (ne jen předdefinovaná)
+  \item před přehráním zobraz na displeji číslo nebo písmeno (A/B),
+        aby bylo jasné, která melodie hraje
+\end{itemize}
+
+\odpoved[5cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

@@ -1,0 +1,159 @@
+% prezentace.tex -- Lekce 06: Čísla a senzory
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 06: Čísla a senzory}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{int a float — dva typy čísel}
+
+  Python rozlišuje dvě skupiny čísel:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Typ} & \textbf{Příklady} & \textbf{Vzniká při} \\
+    \midrule
+    \pyinline{int}   & \pyinline{3}, \pyinline{-7}, \pyinline{100}   & celé dělení \pyinline{//}, \pyinline{\%} \\
+    \pyinline{float} & \pyinline{3.5}, \pyinline{-0.1}, \pyinline{1.0} & dělení \pyinline{/}, desetinné zápisy \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \begin{lstlisting}
+7 / 2    # 3.5   (vzdy float)
+7 // 2   # 3     (cele deleni)
+7 % 2    # 1     (zbytek po deleni)
+  \end{lstlisting}
+
+  \pause\bigskip
+  \begin{alertblock}{Pozor}
+    Dělení \pyinline{/} vždy vrátí \pyinline{float} —
+    i \pyinline{6 / 2} dá \pyinline{3.0}, ne \pyinline{3}.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{round()} a \texttt{abs()}}
+
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{round(x)}}
+        Zaokrouhlí \pyinline{x} na nejbližší celé číslo.
+        Volitelně: počet desetinných míst.
+        \begin{lstlisting}
+round(3.7)      # 4
+round(3.2)      # 3
+round(3.14159, 2)
+                # 3.14
+        \end{lstlisting}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{\texttt{abs(x)}}
+        Absolutní hodnota — vždy kladné číslo.
+        \begin{lstlisting}
+abs(-5)    # 5
+abs(5)     # 5
+abs(-1.5)  # 1.5
+        \end{lstlisting}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  \begin{exampleblock}{Proč to potřebujeme?}
+    Na displeji nelze zobrazit \pyinline{float} přímo — nejdřív zaokrouhlíme,
+    pak převedeme: \pyinline{display.scroll(str(round(x, 1)))}
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{temperature()} — vestavěný teploměr}
+
+  Micro:bit má teploměr přímo na procesoru:
+
+  \bigskip
+  \begin{lstlisting}
+from microbit import *
+
+while True:
+    temp = temperature()      # vraci int (stupne Celsia)
+    display.scroll(str(temp) + "C")
+    sleep(3000)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Vlastnosti}
+        Vrací \pyinline{int} (°C)\\
+        Přesnost ±2–3~°C\\
+        Měří teplotu čipu, ne vzduchu
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Použití}
+        Zobrazení teploty na displej\\
+        Podmínka horko / normál / zima\\
+        Spouštěč alarmu
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Akcelerometr — čtení náklonu}
+
+  \pyinline{accelerometer.get_x()} vrátí číslo −1024 až 1024:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Hodnota} & \textbf{Poloha micro:bitu} \\
+    \midrule
+    $\approx 0$    & leží vodorovně \\
+    $> 0$          & nakloněn doprava \\
+    $< 0$          & nakloněn doleva \\
+    $\pm 1024$     & stojí svisle \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \begin{lstlisting}
+while True:
+    x = accelerometer.get_x()
+    if x > 200:
+        display.show(Image.ARROW_E)
+    elif x < -200:
+        display.show(Image.ARROW_W)
+    else:
+        display.show(Image.DIAMOND_SMALL)
+    sleep(100)
+  \end{lstlisting}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{int} vs \pyinline{float} — celá a desetinná čísla
+    \item[\checkmark] \pyinline{/} → float, \pyinline{//} → celé dělení, \pyinline{\%} → zbytek
+    \item[\checkmark] \pyinline{round(x)} — zaokrouhlení; \pyinline{abs(x)} — absolutní hodnota
+    \item[\checkmark] \pyinline{temperature()} — vestavěný teploměr (vrací \pyinline{int})
+    \item[\checkmark] \pyinline{accelerometer.get_x()} — náklon v ose X (−1024 až 1024)
+    \item[\checkmark] \pyinline{str()} převede číslo na řetězec pro zobrazení na displeji
+  \end{itemize}
+\end{frame}
+
+\end{document}

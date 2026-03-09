@@ -1,0 +1,170 @@
+% prezentace.tex -- Lekce 08: Funkce
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 08: Funkce}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Proč funkce?}
+
+  Opakující se kód je problém:
+
+  \bigskip
+  \begin{lstlisting}
+# bez funkce -- stejny kod 3x
+if button_a.was_pressed():
+    display.show(Image.HAPPY)
+    sleep(500)
+    display.clear()
+if button_b.was_pressed():
+    display.show(Image.HAPPY)
+    sleep(500)
+    display.clear()
+  \end{lstlisting}
+
+  \pause\bigskip
+  \begin{block}{DRY — Don't Repeat Yourself}
+    Opakující se kód dáme do \pojem{funkce}.
+    Funkci pak voláme \textbf{kdekoliv, kolikrát chceme} — kód napíšeme jen jednou.
+  \end{block}
+
+  \bigskip
+  Vzpomínáte na mikrovlnku z~lekce~1?\\
+  Tlačítko „Start" = volání funkce. Nyní si tlačítka \textbf{vyrábíme sami}.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Definice funkce — \texttt{def}}
+
+  \begin{lstlisting}
+def blikni():
+    display.show(Image.HAPPY)
+    sleep(500)
+    display.clear()
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item \pyinline{def} — klíčové slovo „definuj funkci"
+    \item \pyinline{blikni} — název funkce (pravidla jako pro proměnné)
+    \item \pyinline{()} — závorky jsou povinné (i bez parametrů)
+    \item \pyinline{:} a odsazení — stejně jako u \pyinline{if} nebo \pyinline{while}
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{alertblock}{Definice vs. volání}
+    \pyinline{def blikni():} funkci \textbf{připraví}, ale \textbf{nespustí}.\\
+    \pyinline{blikni()} funkci \textbf{spustí} — závorky jsou nutné i při volání!
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Parametry a argumenty}
+
+  \pojem{Parametr} = proměnná v~definici; \pojem{argument} = hodnota při volání:
+
+  \bigskip
+  \begin{lstlisting}
+def pozdrav(jmeno):          # jmeno = parametr
+    display.scroll("Ahoj, " + jmeno + "!")
+
+pozdrav("Karel")             # "Karel" = argument
+pozdrav("Jana")
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Parametr}
+        Lokální proměnná funkce.\\
+        Existuje jen uvnitř.\\
+        Definujeme ji v závorce.
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Argument}
+        Konkrétní hodnota při volání.\\
+        Přiřadí se do parametru.\\
+        Píšeme do závorek při volání.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{return} — návratová hodnota}
+
+  Funkce může \textbf{vrátit} výsledek zpět volajícímu:
+
+  \bigskip
+  \begin{lstlisting}
+import random
+
+def hod_kostkou(pocet_sten):
+    return random.randint(1, pocet_sten)
+
+cislo = hod_kostkou(6)      # cislo = vysledek
+display.show(str(cislo))
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item \pyinline{return} ukončí funkci a vrátí hodnotu
+    \item Kód za \pyinline{return} se \textbf{neprovede}
+    \item Funkce bez \pyinline{return} vrátí \pyinline{None}
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{exampleblock}{Tip}
+    Funkce s \pyinline{return} je jako kalkulačka — zadáš vstup, dostaneš výsledek.\\
+    Funkce bez \pyinline{return} je jako tiskárna — provede akci, nic nevrátí.
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Refaktoring — přepis existujícího kódu}
+
+  Teploměr z~lekce~06 — přepíšeme podmínky do funkce:
+
+  \bigskip
+  \begin{lstlisting}
+from microbit import *
+
+def zobraz_stav(teplota):
+    if teplota > 27:
+        display.show(Image.HAPPY)
+    elif teplota < 18:
+        display.show(Image.SAD)
+    else:
+        display.show(Image.MEH)
+
+while True:
+    zobraz_stav(temperature())
+    sleep(2000)
+  \end{lstlisting}
+
+  \bigskip
+  Hlavní smyčka je nyní \textbf{přehledná} — stačí jeden řádek.\\
+  Funkci \pyinline{zobraz_stav} lze snadno znovu použít nebo upravit.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{def nazev():} — definuje funkci
+    \item[\checkmark] Funkce se spustí až při \textbf{volání} \pyinline{nazev()}
+    \item[\checkmark] \pojem{Parametr} — proměnná v definici; \pojem{argument} — hodnota při volání
+    \item[\checkmark] \pyinline{return hodnota} — funkce vrátí výsledek
+    \item[\checkmark] Funkce bez \pyinline{return} vrací \pyinline{None}
+    \item[\checkmark] \pojem{Refaktoring} — přepis kódu do funkcí pro přehlednost (DRY)
+  \end{itemize}
+\end{frame}
+
+\end{document}

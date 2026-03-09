@@ -1,0 +1,205 @@
+% prezentace.tex -- Lekce 07: Seznamy a hudba
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 07: Seznamy a hudba}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Co je seznam (list)?}
+
+  \pojem{Seznam} je uspořádaná sada hodnot uzavřená do hranatých závorek:
+
+  \bigskip
+  \begin{lstlisting}
+barvy   = ["cervena", "zelena", "modra"]
+cisla   = [1, 2, 3, 4, 5]
+obrazky = [Image.HAPPY, Image.SAD, Image.SURPRISED]
+  \end{lstlisting}
+
+  \bigskip
+  \begin{center}
+  \begin{tikzpicture}
+    \foreach \i/\val in {0/cervena, 1/zelena, 2/modra} {
+      \draw (\i*2.6, 0) rectangle (\i*2.6+2.4, 0.7);
+      \node at (\i*2.6+1.2, 0.35) {\texttt{\val}};
+      \node[font=\footnotesize, gray] at (\i*2.6+1.2, -0.3) {index \i};
+    }
+  \end{tikzpicture}
+  \end{center}
+
+  \bigskip
+  Prvky jsou číslované od~\pyinline{0}.
+  Připomíná \pyinline{random.choice(seznam)} z~lekce~5!
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Indexování a délka}
+
+  \begin{lstlisting}
+barvy = ["cervena", "zelena", "modra"]
+
+barvy[0]    # "cervena"  -- prvni prvek
+barvy[1]    # "zelena"
+barvy[-1]   # "modra"    -- posledni prvek
+
+len(barvy)  # 3          -- pocet prvku
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Kladné indexy}
+        \pyinline{[0]} = první\\
+        \pyinline{[1]} = druhý\\
+        \pyinline{[n-1]} = poslední
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Záporné indexy}
+        \pyinline{[-1]} = poslední\\
+        \pyinline{[-2]} = předposlední\\
+        Počítáme od konce
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \pause\bigskip
+  \begin{alertblock}{IndexError}
+    Pokud index neexistuje (např. \pyinline{barvy[5]}), Python ohlásí chybu.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Procházení seznamu — \texttt{for ... in}}
+
+  Přesně jako v~lekci~4 — ale místo \pyinline{range()} použijeme seznam přímo:
+
+  \bigskip
+  \begin{lstlisting}
+melodie = ["C4:4", "E4:4", "G4:4"]
+
+for nota in melodie:
+    print(nota)      # vypise kazdou notu
+  \end{lstlisting}
+
+  \bigskip
+  \begin{lstlisting}
+obrazky = [Image.HAPPY, Image.SAD, Image.SURPRISED]
+
+for obrazek in obrazky:
+    display.show(obrazek)
+    sleep(500)
+  \end{lstlisting}
+
+  \bigskip
+  Proměnná \pyinline{nota} (nebo \pyinline{obrazek}) dostává vždy \textbf{aktuální prvek} —
+  smyčka projde celý seznam od začátku do konce.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Hudba — \texttt{import music}}
+
+  Modul \pyinline{music} umožňuje přehrávat zvuky a melodie:
+
+  \bigskip
+  \begin{lstlisting}
+import music
+
+music.play(music.NYAN)      # predefinovana melodie
+music.play(music.BIRTHDAY)  # dalsi predefinovana
+  \end{lstlisting}
+
+  \bigskip
+  \begin{block}{Předdefinované melodie (výběr)}
+    \pyinline{NYAN}, \pyinline{BIRTHDAY}, \pyinline{DADADADUM},\\
+    \pyinline{ENTERTAINER}, \pyinline{FUNK}, \pyinline{BLUES},\\
+    \pyinline{JUMP_UP}, \pyinline{JUMP_DOWN}, \pyinline{POWER_UP}
+  \end{block}
+
+  \bigskip
+  \begin{alertblock}{Zvuk na micro:bitu}
+    Zvuk vychází z~GPIO pinu~0 — zapoj krokodýlky ke~sluchátkům nebo reproduktoru.
+    Micro:bit~v2 má vestavěný reproduktor!
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Vlastní melodie — notový zápis}
+
+  Každá nota je řetězec ve formátu \pyinline{"NOTA[OKTAVA]:DELKA"}:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Řetězec} & \textbf{Význam} \\
+    \midrule
+    \pyinline{"C4:4"}  & nota C, oktáva 4, čtvrťová (4 tikety) \\
+    \pyinline{"E4:2"}  & nota E, oktáva 4, půlová (2 tikety) \\
+    \pyinline{"R:4"}   & pomlka, čtvrťová \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \begin{lstlisting}
+import music
+
+melodie = ["C4:4", "D4:4", "E4:4", "F4:4",
+           "G4:2", "R:2",  "G4:4"]
+
+music.play(melodie)
+  \end{lstlisting}
+
+  \bigskip
+  Nota \pyinline{"C"} bez oktávy = posledně použitá oktáva.
+  Délky: 1~=~celá, 2~=~půlová, 4~=~čtvrťová, 8~=~osminová.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Jukebox — výběr melodie tlačítky}
+
+  \begin{lstlisting}
+from microbit import *
+import music
+
+while True:
+    if button_a.was_pressed():
+        music.play(music.NYAN)
+    elif button_b.was_pressed():
+        music.play(music.FUNK)
+    sleep(50)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{exampleblock}{Rozšíření — vlastní melodie v seznamu}
+    \begin{lstlisting}
+melodie = ["C4:4", "E4:4", "G4:4", "C5:2"]
+
+if button_a.was_pressed():
+    music.play(melodie)
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] Seznam \pyinline{[a, b, c]} — uspořádaná sada hodnot
+    \item[\checkmark] \pyinline{seznam[0]} — první prvek; \pyinline{seznam[-1]} — poslední
+    \item[\checkmark] \pyinline{len(seznam)} — počet prvků
+    \item[\checkmark] \pyinline{for prvek in seznam:} — procházení od začátku do konce
+    \item[\checkmark] \pyinline{import music} — modul pro přehrávání zvuků
+    \item[\checkmark] \pyinline{music.play(melodie)} — přehraje seznam not nebo předdefinovanou melodii
+    \item[\checkmark] Notový formát \pyinline{"C4:4"} — nota, oktáva, délka
+  \end{itemize}
+\end{frame}
+
+\end{document}

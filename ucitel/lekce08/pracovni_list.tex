@@ -1,0 +1,110 @@
+% pracovni_list.tex -- Lekce 08: Funkce
+\newcommand{\lekce}{Lekce 08 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 08: Funkce}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+\pojem{Funkce} zabalí opakující se kód do pojmenovaného celku.
+Definujeme ji jednou pomocí \pyinline{def} a voláme libovolněkrát.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Funkce pozdrav]
+
+Napíšeme funkci, která zobrazí pozdrav se jménem.
+
+\begin{lstlisting}
+from microbit import *
+
+def pozdrav(jmeno):
+    display.scroll("Ahoj, " + jmeno + "!")
+
+pozdrav("Karel")
+pozdrav("Jana")
+pozdrav("Svete")
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a spusť ho — co se zobrazí?
+  \item Co je \pyinline{jmeno} — parametr nebo argument? A co \pyinline{"Karel"}?
+  \item Uprav funkci tak, aby zobrazila i \pyinline{Image.HAPPY} po pozdravení.
+  \item Zkus zavolat \pyinline{pozdrav} bez argumentu: \pyinline{pozdrav()}.
+        Jakou chybu Python ohlásí?
+\end{enumerate}
+
+\odpoved[2cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=Klíčové pojmy]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{def nazev(parametr):} — definuje funkci (neprovede ji!).
+    \item \pyinline{nazev(argument)} — zavolá funkci, spustí tělo.
+    \item \pyinline{return hodnota} — ukončí funkci a vrátí výsledek.
+    \item Funkce bez \pyinline{return} vrátí \pyinline{None}.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Hod kostkou s \texttt{return}]
+
+Přepíšeme hod kostkou z lekce~05 jako funkci s návratovou hodnotou.
+
+\begin{lstlisting}
+from microbit import *
+import random
+
+def hod_kostkou(pocet_sten):
+    return random.randint(1, pocet_sten)
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        cislo = hod_kostkou(6)
+        display.show(str(cislo))
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a otestuj ho zatřesením.
+  \item Co by se stalo, kdybys zapomněl \pyinline{return}?
+        Zkus to — co se zobrazí na displeji?
+  \item Uprav program tak, aby tlačítko A hodilo šestistěnnou kostku
+        a tlačítko B dvacetistěnnou (1--20).
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Refaktoring]
+
+Vezmi libovolný program z~předchozích lekcí (teploměr, věštírna, jukebox\ldots)
+a přepiš ho pomocí funkcí.
+
+\medskip
+Podmínky:
+\begin{itemize}
+  \item definuj alespoň \textbf{2 vlastní funkce}
+  \item alespoň jedna funkce musí mít \textbf{parametr}
+  \item alespoň jedna funkce musí \textbf{vracet hodnotu} (\pyinline{return})
+  \item hlavní smyčka \pyinline{while True:} by měla být \textbf{přehledná a krátká}
+\end{itemize}
+
+\medskip
+\textit{Tip: Začni tím, že identifikuješ opakující se bloky kódu — ty se stanou funkcemi.}
+
+\odpoved[6cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

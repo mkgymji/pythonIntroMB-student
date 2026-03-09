@@ -1,0 +1,107 @@
+% pracovni_list.tex -- Lekce 06: Čísla a senzory
+\newcommand{\lekce}{Lekce 06 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 06: Čísla a senzory}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Python pracuje se dvěma typy čísel: \pyinline{int} (celá) a \pyinline{float} (desetinná).
+Micro:bit nám dává přístup k vestavěnému teploměru a akcelerometru.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Teploměr]
+
+Micro:bit zobrazuje aktuální teplotu každé 3 sekundy.
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    temp = temperature()
+    display.scroll(str(temp) + "C")
+    sleep(3000)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a spusť ho. Jakou teplotu ukazuje?
+  \item Co vrací \pyinline{temperature()} — \pyinline{int} nebo \pyinline{float}?
+        Jak to snadno zjistíš?
+  \item Přidej podmínku: nad 27~°C zobraz \pyinline{Image.HAPPY},
+        pod 18~°C zobraz \pyinline{Image.SAD}, jinak \pyinline{Image.MEH}.
+  \item Proč nestačí \pyinline{display.show(temp)} bez \pyinline{str()}?
+        Zkus to — co se stane?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=Čísla a převody]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{temperature()} — vrátí teplotu jako \pyinline{int} (stupně Celsia).
+    \item \pyinline{str(x)} — převede číslo na řetězec pro zobrazení na displeji.
+    \item \pyinline{7 / 2 = 3.5} (float); \pyinline{7 // 2 = 3} (celé); \pyinline{7 \% 2 = 1} (zbytek).
+    \item \pyinline{round(x)} — zaokrouhlí; \pyinline{abs(x)} — absolutní hodnota.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Inklinometr — šipky podle náklonu]
+
+Akcelerometr měří náklon micro:bitu.
+\pyinline{accelerometer.get_x()} vrátí číslo od~−1024 do~1024.
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    x = accelerometer.get_x()
+    if x > 200:
+        display.show(Image.ARROW_E)
+    elif x < -200:
+        display.show(Image.ARROW_W)
+    else:
+        display.show(Image.DIAMOND_SMALL)
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a nakláněj micro:bitem — sleduj, jak se mění šipka.
+  \item Změň práh z 200 na 500 — jak se změní citlivost?
+  \item Přidej osu Y: \pyinline{accelerometer.get_y()} ovládá šipky nahoru/dolů
+        (\pyinline{Image.ARROW_N} a \pyinline{Image.ARROW_S}).
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Vlastní senzorový program]
+
+Vytvoř program, který kombinuje alespoň jeden senzor
+(\pyinline{temperature()} nebo \pyinline{accelerometer}) s podmínkami a zobrazením.
+
+\medskip
+Podmínky:
+\begin{itemize}
+  \item program musí mít alespoň \textbf{3 různé stavy}
+        (např.\ horko\,/\,normál\,/\,zima nebo vlevo\,/\,rovně\,/\,vpravo)
+  \item pro zobrazení číselné hodnoty použij \pyinline{str()}
+  \item přidej \pyinline{sleep()} pro plynulý chod
+\end{itemize}
+
+\odpoved[5cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

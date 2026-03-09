@@ -1,0 +1,155 @@
+% prezentace.tex -- Lekce 09: Řetězce a radio
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 09: Řetězce a radio}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Řetězce — co už umíme}
+
+  Řetězec je text uzavřený do uvozovek:
+
+  \bigskip
+  \begin{lstlisting}
+zprava = "Hello, Microbit!"
+
+len(zprava)         # 16  -- pocet znaku
+zprava + " :-)"     # spojeni (konkatenace)
+str(42) + " stupnu" # cislo -> retezec -> spojeni
+  \end{lstlisting}
+
+  \pause\bigskip
+  Nové operace:
+
+  \begin{lstlisting}
+zprava.upper()  # "HELLO, MICROBIT!"
+zprava.lower()  # "hello, microbit!"
+zprava[0]       # "H"   -- prvni znak
+zprava[-1]      # "!"   -- posledni znak
+"bit" in zprava # True  -- obsahuje podretezec?
+  \end{lstlisting}
+
+  \bigskip
+  Indexování funguje \textbf{stejně jako u seznamů} — řetězec je sekvence znaků.
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Řetězcové metody — přehled}
+
+  \begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Výraz} & \textbf{Výsledek (pro \texttt{"Hello"})} \\
+    \midrule
+    \pyinline{len("Hello")}         & \pyinline{5} \\
+    \pyinline{"Hello".upper()}      & \pyinline{"HELLO"} \\
+    \pyinline{"Hello".lower()}      & \pyinline{"hello"} \\
+    \pyinline{"Hello"[0]}           & \pyinline{"H"} \\
+    \pyinline{"Hello"[-1]}          & \pyinline{"o"} \\
+    \pyinline{"ell" in "Hello"}     & \pyinline{True} \\
+    \pyinline{"xyz" in "Hello"}     & \pyinline{False} \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \pause\bigskip
+  \begin{block}{Metody vs. funkce}
+    \pyinline{len(s)} je funkce — volíme ji s hodnotou jako argumentem.\\
+    \pyinline{s.upper()} je \pojem{metoda} — voláme ji \textbf{na řetězci} pomocí tečky.\\
+    Obojí jsme ale viděli i dříve: \pyinline{display.scroll()} je také metoda.
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Radio — bezdrátová komunikace}
+
+  Micro:bit má vestavěný radio čip — posíláme a přijímáme zprávy:
+
+  \bigskip
+  \begin{lstlisting}
+from microbit import *
+import radio
+
+radio.on()              # zapne radio (nutne!)
+radio.config(channel=7) # vyber kanal 0-83
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Odesílání}
+        \begin{lstlisting}
+radio.send("Ahoj!")
+        \end{lstlisting}
+        Odešle řetězec všem na stejném kanálu.
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Příjem}
+        \begin{lstlisting}
+msg = radio.receive()
+if msg is not None:
+    display.scroll(msg)
+        \end{lstlisting}
+        Vrátí zprávu nebo \pyinline{None}.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \pause\bigskip
+  \begin{alertblock}{Stejný kanál}
+    Oba micro:bity musí mít \textbf{stejný kanál} — jinak se neslyší.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Radio ping-pong}
+
+  Jednoduchý program pro komunikaci dvou micro:bitů:
+
+  \bigskip
+  \begin{lstlisting}
+from microbit import *
+import radio
+
+radio.on()
+radio.config(channel=7)
+
+while True:
+    if button_a.was_pressed():
+        radio.send("Ping!")
+        display.show(Image.ARROW_E)
+
+    msg = radio.receive()
+    if msg is not None:
+        display.scroll(msg)
+
+    sleep(100)
+  \end{lstlisting}
+
+  \bigskip
+  Oba micro:bity mají \textbf{stejný program}.
+  A vidí zprávy \textbf{od všech} na tomtéž kanálu — radio je broadcast!
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{len(s)}, \pyinline{s.upper()}, \pyinline{s.lower()} — základní operace s řetězci
+    \item[\checkmark] \pyinline{s[i]} — přístup k~jednotlivým znakům (indexování jako u seznamů)
+    \item[\checkmark] \pyinline{"text" in s} — test, zda řetězec obsahuje podřetězec
+    \item[\checkmark] \pyinline{import radio} + \pyinline{radio.on()} — zapnutí rádia
+    \item[\checkmark] \pyinline{radio.config(channel=7)} — nastavení kanálu
+    \item[\checkmark] \pyinline{radio.send("text")} — odeslání zprávy
+    \item[\checkmark] \pyinline{radio.receive()} — příjem zprávy (nebo \pyinline{None})
+  \end{itemize}
+\end{frame}
+
+\end{document}
