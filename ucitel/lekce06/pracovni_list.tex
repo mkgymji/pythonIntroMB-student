@@ -149,4 +149,62 @@ while True:
 
 \end{bonusukol}
 
+% ------------------------------------------------------------------
+\begin{bonusukol}[Kompas — 8 světových stran]
+
+Inklinometr z úkolu~2 ukazoval 4 směry. Micro:bit má ale šipky i do diagonál —
+\pyinline{Image.ARROW_NE}, \pyinline{ARROW_SE}, \pyinline{ARROW_SW}, \pyinline{ARROW_NW}.
+
+\medskip\noindent
+\textbf{Klíčová myšlenka:} nejprve převedeme syrové hodnoty na logické proměnné
+(\pyinline{True}/\pyinline{False}), pak je kombinujeme podmínkami.
+
+\begin{lstlisting}
+from microbit import *
+
+PRAH = 300   # zkus zmenit a pozoruj citlivost
+
+while True:
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+
+    vpravo = x >  PRAH
+    vlevo  = x < -PRAH
+    dolu   = y >  PRAH
+    nahoru = y < -PRAH
+
+    if vpravo and dolu:
+        display.show(Image.ARROW_SE)
+    elif vpravo and nahoru:
+        display.show(Image.ARROW_NE)
+    elif vlevo and dolu:
+        display.show(Image.ARROW_SW)
+    elif vlevo and nahoru:
+        display.show(Image.ARROW_NW)
+    elif vpravo:
+        display.show(Image.ARROW_E)
+    elif vlevo:
+        display.show(Image.ARROW_W)
+    elif dolu:
+        display.show(Image.ARROW_S)
+    elif nahoru:
+        display.show(Image.ARROW_N)
+    else:
+        display.show(Image.DIAMOND_SMALL)   # svisly poloh
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a otoč micro:bitem do všech 8 stran — zobrazují se správné šipky?
+  \item Proč jsou diagonální podmínky (\pyinline{vpravo and dolu} apod.) \textbf{výše}
+        než samotné základní směry (\pyinline{elif vpravo})?
+        Co by se stalo, kdybys je prohodil?
+  \item Změň \pyinline{PRAH} na 150 a pak na 600 — jak se liší chování?
+        Jakou hodnotu považuješ za nejpřirozenější?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\end{bonusukol}
+
 \end{document}

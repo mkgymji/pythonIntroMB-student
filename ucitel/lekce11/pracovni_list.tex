@@ -130,4 +130,90 @@ Přidej „nastavovací" obrazovku: tlačítkem A/B nastavíš parametr programu
 
 \end{bonusukol}
 
+% ------------------------------------------------------------------
+\begin{bonusukol}[Kulička na plošince]
+
+Dosud jsme zobrazovali obrázky nebo znaky. Micro:bit ale umí rozsvítit
+i \textbf{jednu konkrétní LED} příkazem \pyinline{display.set_pixel(x, y, jas)},
+kde \pyinline{x} a \pyinline{y} jsou souřadnice (0–4) a \pyinline{jas} je 0–9.
+
+\medskip\noindent
+Chceme nakloněním desky posouvat tečku po displeji — jako kulička na plošince.
+Akcelerometr vrací náklon v rozsahu −1024 až 1024. Musíme ho \textbf{přepočítat}
+na souřadnici 0–4. Takový přepočet se nazývá \textbf{mapování}.
+
+\medskip
+\begin{center}
+\begin{tabular}{cc}
+  \toprule
+  \textbf{Náklon (vstup)} & \textbf{Souřadnice LED (výstup)} \\
+  \midrule
+  $-1024$ & 0 \quad (levý / horní kraj) \\
+  $0$     & 2 \quad (střed) \\
+  $+1024$ & 4 \quad (pravý / dolní kraj) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}
+from microbit import *
+
+def mapuj(hodnota, vstup_min, vstup_max, vystup_min, vystup_max):
+    # Prepocita hodnotu z jednoho rozsahu do druheho
+    pomer = (hodnota - vstup_min) / (vstup_max - vstup_min)
+    return int(pomer * (vystup_max - vystup_min) + vystup_min)
+
+def orez(hodnota, minimum, maximum):
+    # Orize hodnotu do povolenych mezi
+    if hodnota < minimum:
+        return minimum
+    if hodnota > maximum:
+        return maximum
+    return hodnota
+
+while True:
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+
+    px = mapuj(x, -1024, 1024, 0, 4)
+    py = mapuj(y, -1024, 1024, 0, 4)
+    px = orez(px, 0, 4)
+    py = orez(py, 0, 4)
+
+    display.clear()
+    display.set_pixel(px, py, 9)
+    sleep(50)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a nakláněj micro:bitem — pohybuje se světelná tečka?
+  \item Co dělá funkce \pyinline{mapuj()}? Proč nestačí prostý součin?
+  \item Co by se stalo bez \pyinline{orez()}? Kdy by to způsobilo chybu?
+  \item \textbf{Výzva — fyzikálnější kulička:}
+        Tečka se teď pohybuje přesně podle náklonu.
+        Skutečná kulička by ale nabírala rychlost postupně — náklon by měnil \emph{rychlost},
+        ne rovnou polohu. Zkus tuto variantu:
+\begin{lstlisting}
+kx = 2.0   # pocatecni poloha: stred
+ky = 2.0
+
+while True:
+    kx += accelerometer.get_x() / 2000   # tilt meni rychlost
+    ky += accelerometer.get_y() / 2000
+
+    kx = orez(kx, 0.0, 4.0)
+    ky = orez(ky, 0.0, 4.0)
+
+    display.clear()
+    display.set_pixel(int(kx), int(ky), 9)
+    sleep(50)
+\end{lstlisting}
+        Jak se chování liší od původního programu? Proč se tečka pohybuje
+        i když držíš micro:bit rovně (po předchozím náklonu)?
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{bonusukol}
+
 \end{document}

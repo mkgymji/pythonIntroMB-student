@@ -17,7 +17,7 @@ Série 11 lekcí — od prvního skriptu až po hru dvou hráčů přes rádio.
 | 08 | Vlastní funkce | `def`, parametry, `return` |
 | 09 | Rádio — základy | `import radio`, posílání zpráv |
 | 10 | Rádio — hra | reakcní hra + kámen-nůžky-papír pro dva hráče |
-| 11 | Volný projekt | vlastní program, vše dohromady |
+| 11 *(volitelná)* | Volný projekt | vlastní program, vše dohromady |
 
 ## Co je v každé složce
 

@@ -37,10 +37,11 @@ Lekce 11 (volný projekt) je volitelná — kurz lze uzavřít po lekci 10.
 ```
 MicrobitProVG/                  <- privátní repo (učitel)
 ├── student/                    <- zrcadleno do veřejného repo
+│   ├── README.md               <- úvodní stránka veřejného repo pro studenty
 │   └── lekceXX/
 │       ├── pracovni_list.pdf   <- zkompilované PDF (verzováno)
 │       ├── prezentace.pdf      <- zkompilované PDF (verzováno)
-│       └── template.py         <- šablona zdrojáku (jen když dává smysl)
+│       └── template.py         <- šablona zdrojáku (lekce09 a lekce11)
 ├── ucitel/
 │   ├── spolecne/               <- sdílený LaTeX styl/preamble
 │   └── lekceXX/
