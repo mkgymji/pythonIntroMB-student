@@ -1,0 +1,109 @@
+% pracovni_list.tex -- Lekce 05: Náhoda a hry
+\newcommand{\lekce}{Lekce 05 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 05: Náhoda a hry}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Python umí generovat náhodná čísla pomocí modulu \pyinline{random}.
+Dnes ho použijeme spolu s gestem třepání micro:bitu na vytvoření her.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Hod kostkou]
+
+Zatřes micro:bitem — hodíš kostkou.
+
+\begin{lstlisting}
+from microbit import *
+import random
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        cislo = random.randint(1, 6)
+        display.show(str(cislo))
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a spusť ho. Zatřes micro:bitem — zobrazí se číslo 1–6.
+  \item Co dělá \pyinline{random.randint(1, 6)}?
+        Může vrátit číslo 6? A číslo 0?
+  \item Uprav program na desetistěnnou kostku (1–10).
+  \item Co dělá \pyinline{sleep(100)} na konci smyčky?
+        Zkus ho odstranit — co se změní?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=import a randint]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{import random} — načte modul s funkcemi pro náhodu.
+    \item \pyinline{random.randint(a, b)} — vrátí náhodné celé číslo
+          od \pyinline{a} do \pyinline{b} \textbf{včetně}.
+    \item \pyinline{accelerometer.was_gesture("shake")} — vrátí \pyinline{True},
+          pokud micro:bit zaznamenal třepání od posledního volání.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Náhodný obrázek]
+
+Místo čísla zobrazíme náhodný obrázek ze seznamu:
+
+\begin{lstlisting}
+from microbit import *
+import random
+
+obrazky = [Image.HAPPY, Image.SAD, Image.SURPRISED,
+           Image.ANGRY, Image.CONFUSED, Image.ASLEEP]
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        display.show(random.choice(obrazky))
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Co dělá \pyinline{random.choice(obrazky)}?
+        Jak se liší od \pyinline{random.randint()}?
+  \item Přidej do seznamu \pyinline{obrazky} další obrázky dle vlastního výběru.
+  \item Uprav program tak, aby se spolu s obrázkem také skroloval krátký text
+        (např. „Dnes bude hezky!").
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Věštírna]
+
+Vytvoř program, který po zatřesení zobrazí náhodnou odpověď z vlastního seznamu.
+Věštírna může předpovídat cokoliv — odpovědi Ano/Ne, číslo štěstí, předpověď
+počasí, náladu\ldots
+
+\medskip
+Podmínky:
+\begin{itemize}
+  \item seznam musí mít alespoň 4 různé možnosti
+  \item použij \pyinline{random.choice()}
+  \item pro delší texty použij \pyinline{display.scroll()},
+        pro obrázky nebo jednoznakové výstupy \pyinline{display.show()}
+\end{itemize}
+
+\odpoved[4.5cm]
+
+\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+\end{document}

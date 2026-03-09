@@ -1,0 +1,175 @@
+% prezentace.tex -- Lekce 05: Náhoda a hry
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 05: Náhoda a hry}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Moduly — rozbalení sady nástrojů}
+
+  Python má v sobě jen základní nástroje.
+  Další funkce jsou uloženy v \pojem{modulech} — přibalíme je pomocí \pyinline{import}:
+
+  \bigskip
+  \begin{lstlisting}
+import random        # modul pro nahodna cisla
+from microbit import *   # vsechny funkce pro micro:bit
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Proč moduly?}
+        Kdyby byl každý nástroj\\ vždy načtený, Python by byl\\
+        pomalý a zbytečně velký.\\
+        Importujeme jen to, co použijeme.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Dvě formy importu}
+        \pyinline{import random}\\
+        → funkce voláme jako \pyinline{random.randint()}\\[6pt]
+        \pyinline{from microbit import *}\\
+        → funkce voláme přímo: \pyinline{display.show()}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{random.randint()} — náhodné číslo}
+
+  \pyinline{random.randint(a, b)} vrátí náhodné celé číslo od \pyinline{a} do \pyinline{b}
+  \textbf{včetně obou krajů}:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Volání} & \textbf{Možné výsledky} \\
+    \midrule
+    \pyinline{random.randint(1, 6)}  & 1, 2, 3, 4, 5, 6 \\
+    \pyinline{random.randint(0, 9)}  & 0, 1, 2, \ldots, 9 \\
+    \pyinline{random.randint(1, 10)} & 1, 2, \ldots, 10 \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \begin{lstlisting}
+cislo = random.randint(1, 6)
+display.show(str(cislo))
+  \end{lstlisting}
+
+  \pause\bigskip
+  \begin{alertblock}{Pozor}
+    Na rozdíl od \pyinline{range(n)}, \pyinline{randint} \textbf{vrací}
+    \pyinline{b} — krajní hodnota je zahrnuta!
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{random.choice()} — náhodný prvek}
+
+  \pyinline{random.choice(seznam)} vrátí náhodně jeden prvek ze seznamu:
+
+  \bigskip
+  \begin{lstlisting}
+obrazky = [Image.HAPPY, Image.SAD, Image.SURPRISED]
+display.show(random.choice(obrazky))
+  \end{lstlisting}
+
+  \bigskip
+  \begin{lstlisting}
+odpovedi = ["ANO", "NE", "MOZNA"]
+display.scroll(random.choice(odpovedi))
+  \end{lstlisting}
+
+  \bigskip
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{\texttt{randint}}
+        Generuje číslo v rozsahu.\\
+        Výstup: \pyinline{int}
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{block}{\texttt{choice}}
+        Vybírá z hotového seznamu.\\
+        Výstup: libovolný typ
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Gesto: třepání micro:bitu}
+
+  Micro:bit má akcelerometr — snímá pohyb a rozpoznává gesta:
+
+  \bigskip
+  \begin{lstlisting}
+accelerometer.was_gesture("shake")
+  \end{lstlisting}
+
+  \begin{itemize}
+    \item Vrátí \pyinline{True}, pokud micro:bit zaznamenal třepání
+          \textbf{od posledního volání}
+    \item Použijeme uvnitř \pyinline{while True:} — gesto se kontroluje stále dokola
+    \item Na konci smyčky přidej \pyinline{sleep(100)} — zabrání falešné detekci
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{block}{Další dostupná gesta}
+    \pyinline{"up"}, \pyinline{"down"}, \pyinline{"left"}, \pyinline{"right"},
+    \pyinline{"face up"}, \pyinline{"face down"}, \pyinline{"freefall"}
+  \end{block}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Hod kostkou}
+
+  \begin{lstlisting}
+from microbit import *
+import random
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        cislo = random.randint(1, 6)
+        display.show(str(cislo))
+    sleep(100)
+  \end{lstlisting}
+
+  \bigskip
+  Program čeká v smyčce. Při třepání vygeneruje číslo 1–6 a zobrazí ho.
+  Číslo zůstane na displeji, dokud micro:bit neotřeseme znovu.
+
+  \pause\bigskip
+  \begin{exampleblock}{Rozšíření — věštírna}
+    \begin{lstlisting}
+odpovedi = ["ANO", "NE", "MOZNA", "URCITE", "NIKDY"]
+display.scroll(random.choice(odpovedi))
+    \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{import random} — načtení modulu s funkcemi pro náhodu
+    \item[\checkmark] \pyinline{random.randint(a, b)} — náhodné celé číslo od \pyinline{a} do \pyinline{b} včetně
+    \item[\checkmark] \pyinline{random.choice(seznam)} — náhodný prvek ze seznamu
+    \item[\checkmark] \pyinline{accelerometer.was_gesture("shake")} — detekce třepání
+    \item[\checkmark] \pyinline{sleep(100)} na konci smyčky zabrání falešné detekci
+    \item[\checkmark] Moduly rozšiřují Python o nové funkce — importujeme jen co potřebujeme
+  \end{itemize}
+\end{frame}
+
+\end{document}
