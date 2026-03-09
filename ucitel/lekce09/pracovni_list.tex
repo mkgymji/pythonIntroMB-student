@@ -31,7 +31,19 @@ print("bit" in zprava)
 print("xyz" in zprava)
 \end{lstlisting}
 
-\medskip\noindent\textit{Tyto příkazy zadávej přímo v dolním panelu Thonny (REPL) — po každém stiskni Enter.}
+\medskip
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40, fonttitle=\small\bfseries,
+                  title=Jak použít REPL v Thonny]
+  \small
+  REPL je interaktivní panel v~dolní části Thonny (záložka \textbf{Shell}).
+  Funguje jako kalkulačka — napíšeš výraz, stiskneš Enter, hned vidíš výsledek.\\[4pt]
+  \textbf{Pro tuto úlohu:}
+  \begin{enumerate}[leftmargin=*, itemsep=1pt]
+    \item Ujisti se, že Thonny je připojeno k~micro:bitu (dole vidíš \texttt{MicroPython (BBC micro:bit)}).
+    \item V~panelu Shell napiš: \pyinline{zprava = "Hello, Microbit!"} a stiskni Enter.
+    \item Pak zadávej jednotlivé příkazy z~kódu výše — vždy jeden řádek, Enter, výsledek.
+  \end{enumerate}
+\end{tcolorbox}
 
 \begin{enumerate}
   \item Doplň výsledky do tabulky:
@@ -43,9 +55,11 @@ print("xyz" in zprava)
           \midrule
           \pyinline{len(zprava)} & \hspace{4cm} \\[4pt]
           \pyinline{zprava.upper()} & \\[4pt]
+          \pyinline{zprava.lower()} & \\[4pt]
           \pyinline{zprava[0]} & \\[4pt]
           \pyinline{zprava[-1]} & \\[4pt]
           \pyinline{"bit" in zprava} & \\[4pt]
+          \pyinline{"xyz" in zprava} & \\[4pt]
           \bottomrule
         \end{tabular}
 
@@ -66,7 +80,7 @@ print("xyz" in zprava)
     \item \pyinline{radio.on()} — nutné zapnout před použitím.
     \item \pyinline{radio.receive()} vrátí \pyinline{None}, pokud žádná zpráva nečeká.
     \item \pyinline{if msg is not None:} — \pyinline{is not} testuje, zda hodnota \textbf{není}
-          \pyinline{None}. Alternativa: \pyinline{if msg != None:} funguje stejně.
+          \pyinline{None}. Vždy používej \pyinline{is not None}, ne \pyinline{!=}.
   \end{itemize}
 \end{tcolorbox}
 
