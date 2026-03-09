@@ -45,17 +45,23 @@ Ukázka: jukebox s výběrem melodie tlačítky A/B. Žáci sdílí svou vlastn�
   Pokud žáci zvuk neslyší: zkontrolovat zapojení nebo použít `music.pitch(440, 200)`.
 - Předdefinované melodie: `music.NYAN`, `music.BIRTHDAY`, `music.DADADADUM`,
   `music.ENTERTAINER`, `music.FUNK`, `music.BLUES`, `music.JUMP_UP`, `music.JUMP_DOWN`.
-- Notový formát: `"C4:4"` = C, oktáva 4, 4 tikety (čtvrťová nota při výchozím tempu).
-  `"R:4"` = pomlka. Délky: 1=celá, 2=půlová, 4=čtvrťová, 8=osminová.
+- Notový formát: `"C4:4"` = C, oktáva 4, čtvrťová nota. `"R:4"` = pomlka.
+  Délky: 1=celá, 2=půlová, 4=čtvrťová, 8=osminová.
+  ⚠️ **Upozornit studenty:** čím větší číslo délky, tím *kratší* nota — opačně než by čekali.
+  (4 = čtvrťová je kratší než 2 = půlová.) Analogie: pizza krájená na 4 vs. na 2 díly.
 - `music.play(melodie, wait=False)` — nebude blokovat zbytek programu.
 
 ## Vzorová řešení
 
 ### Úkol 1 — první melodie
 ```python
+from microbit import *
 import music
 
-music.play(music.BIRTHDAY)
+while True:
+    if button_a.was_pressed():
+        music.play(music.BIRTHDAY)
+    sleep(50)
 ```
 
 ### Úkol 2 — vlastní melodie
@@ -75,14 +81,16 @@ music.play(melodie)
 from microbit import *
 import music
 
-melodie_a = [music.NYAN]
-melodie_b = [music.FUNK]
+melodie_a = ["C4:4", "E4:4", "G4:4", "C5:2"]  # vlastní melodie (splňuje podmínku)
+melodie_b = music.FUNK                           # předdefinovaná
 
 while True:
     if button_a.was_pressed():
-        music.play(music.NYAN)
+        display.show("A")
+        music.play(melodie_a)
     elif button_b.was_pressed():
-        music.play(music.FUNK)
+        display.show("B")
+        music.play(melodie_b)
     sleep(50)
 ```
 
