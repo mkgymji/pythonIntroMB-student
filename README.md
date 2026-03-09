@@ -39,7 +39,14 @@ Studenti mají přístup k **veřejnému repozitáři** [mkgymji/pythonIntroMB-s
 ```bash
 make lekce01      # jedna lekce
 make              # všechny lekce
+make clean        # smaže pomocné LaTeX soubory
+make distclean    # smaže i PDF (pro čistou rekompilaci)
 make push-public  # synchronizace do veřejného repo
 ```
 
 Vyžaduje: XeLaTeX, `latexmk`.
+
+## Šablony zdrojových kódů
+
+Lekce 09 a 10 obsahují `template.py` v adresáři `student/lekceXX/` jako startovní bod pro studenty.
+Ostatní lekce šablonu nemají záměrně — studenti kód píší od začátku.
