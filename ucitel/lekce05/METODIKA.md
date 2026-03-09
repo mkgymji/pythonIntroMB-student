@@ -81,7 +81,7 @@ while True:
     sleep(100)
 ```
 
-### Bonus — jednoduchá hra: uhádni číslo
+### Bonus — uhádni číslo
 ```python
 from microbit import *
 import random
@@ -89,19 +89,22 @@ import random
 tajne = random.randint(1, 3)
 
 while True:
-    if button_a.was_pressed():
-        display.show("1")
-        sleep(500)
-        if tajne == 1:
-            display.show(Image.HAPPY)
-        else:
-            display.show(Image.SAD)
+    # is_pressed() pro A+B — was_pressed() by se po prvním volání resetovalo
+    if button_a.is_pressed() and button_b.is_pressed():
+        tip = 3
+    elif button_a.was_pressed():
+        tip = 1
     elif button_b.was_pressed():
-        display.show("2")
-        sleep(500)
-        if tajne == 2:
+        tip = 2
+    else:
+        tip = 0
+
+    if tip != 0:
+        if tip == tajne:
             display.show(Image.HAPPY)
         else:
             display.show(Image.SAD)
+            display.scroll(str(tajne))
+        tajne = random.randint(1, 3)
     sleep(50)
 ```

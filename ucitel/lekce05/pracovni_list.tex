@@ -129,7 +129,8 @@ import random
 tajne = random.randint(1, 3)
 
 while True:
-    if button_a.was_pressed() and button_b.was_pressed():
+    # is_pressed() pro A+B — was_pressed() by se po prvním volání resetovalo
+    if button_a.is_pressed() and button_b.is_pressed():
         tip = 3
     elif button_a.was_pressed():
         tip = 1
