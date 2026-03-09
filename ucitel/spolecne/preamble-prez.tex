@@ -73,7 +73,25 @@
 
 % --- Grafika a diagramy ---
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.geometric}   % diamond
+\usetikzlibrary{shapes.misc}        % rounded rectangle (fc-start)
+\usetikzlibrary{arrows.meta}        % moderní šipky (Stealth)
+\usetikzlibrary{positioning}        % below=of node, right=2cm of node
+\usetikzlibrary{calc}               % souřadnicové výpočty
+
+% Styly pro vývojové diagramy (ISO 5807)
+\tikzset{
+  fc-start/.style={draw, rounded rectangle,
+    minimum width=2.8cm, minimum height=0.7cm,
+    align=center, fill=green!20, font=\small},
+  fc-process/.style={draw, rectangle,
+    minimum width=3.2cm, minimum height=0.7cm,
+    align=center, fill=blue!10, font=\small},
+  fc-decision/.style={draw, diamond, aspect=2.5,
+    minimum width=2.8cm, minimum height=0.7cm,
+    align=center, fill=orange!20, inner sep=2pt, font=\small},
+  fc-arrow/.style={thick, ->, >=Stealth},
+}
 
 % --- Ostatní ---
 \usepackage{graphicx}

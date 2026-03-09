@@ -18,22 +18,15 @@
 
   \bigskip
   \begin{center}
-  \begin{tikzpicture}[
-    box/.style={draw=microbit-blue, fill=microbit-lightblue,
-                rounded corners=4pt, minimum width=3.8cm,
-                minimum height=0.8cm, font=\small, align=center},
-    diamond/.style={draw=microbit-blue, fill=yellow!20,
-                    shape=diamond, aspect=2.5,
-                    minimum width=4cm, font=\small, align=center},
-    arr/.style={->, thick, microbit-blue}
-  ]
-    \node[box] (start) at (0,0) {Jdu ven};
-    \node[diamond] (cond) at (0,-1.6) {Prší?};
-    \node[box] (yes) at (-2.8,-3.2) {Vezmu\\deštník};
-    \node[box] (no)  at ( 2.8,-3.2) {Deštník\\nechám doma};
-    \draw[arr] (start) -- (cond);
-    \draw[arr] (cond) -- node[left,font=\footnotesize] {Ano} (yes);
-    \draw[arr] (cond) -- node[right,font=\footnotesize] {Ne} (no);
+  \begin{tikzpicture}[node distance=1.2cm]
+    \node[fc-start]                        (start) {Jdu ven};
+    \node[fc-decision, below=1.4cm of start] (cond)  {Prší?};
+    \node[fc-process,  left=2.2cm of cond] (yes)   {Vezmu\\deštník};
+    \node[fc-process,  right=2.2cm of cond](no)    {Deštník\\nechám doma};
+
+    \draw[fc-arrow] (start) -- (cond);
+    \draw[fc-arrow] (cond)  -- node[above, font=\footnotesize] {Ano} (yes);
+    \draw[fc-arrow] (cond)  -- node[above, font=\footnotesize] {Ne}  (no);
   \end{tikzpicture}
   \end{center}
 \end{frame}
