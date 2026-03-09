@@ -199,6 +199,10 @@ Zkontrolujte, že máte \textbf{stejné číslo kanálu} (\pyinline{channel=42})
   \odpoved[1cm]
 \end{enumerate}
 
+\medskip\noindent
+Upravený program (se zvukem nebo jinou vlastní změnou) ulož a připrav k~odevzdání
+do Google Classroom — odevzdejte \textbf{oba soubory}: \texttt{hostitel.py} a \texttt{host.py}.
+
 \end{ukol}
 
 % ==================================================================
@@ -247,7 +251,7 @@ radio.config(channel=42)
 radio.on()
 
 def vyhodnot(moje, souperova):
-    """Vrátí 'VYHRAL', 'PROHRAL' nebo 'REMIZA'."""
+    # Vrátí 'VYHRAL', 'PROHRAL' nebo 'REMIZA'
     if moje == souperova:
         return "REMIZA"
     vyhry = [("K", "N"), ("N", "P"), ("P", "K")]
