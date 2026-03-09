@@ -65,10 +65,15 @@ for i in range(5):
 display.show(Image.YES)
 \end{lstlisting}
 
+\hadej{Jaká čísla se zobrazí? V jakém pořadí?
+Napiš svůj odhad (nezapomeň — \pyinline{range(5)} začíná od 0!):
+\underline{\hspace{8cm}}}
+
 \begin{enumerate}
-  \item Spusť program. Jaká čísla se zobrazí? (Pozor — začínají od 0!)
+  \item Spusť program. Shoduje se výsledek s tvým odhadem?
   \item Změň \pyinline{range(5)} na \pyinline{range(10)} — co se změní?
   \item Jaký je rozdíl mezi \pyinline{while True:} a \pyinline{for i in range(5):}?
+        Kdy bys použil který?
 \end{enumerate}
 
 \odpoved[2.5cm]
@@ -132,9 +137,45 @@ while True:
 \end{lstlisting}
 
 Jak bys program upravil, aby se bod pohyboval tam a zpět?
+\textit{(Tip: zkus \pyinline{range(4, -1, -1)} — range se třemi argumenty!)}
 
 \odpoved[2.5cm]
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Animace řízená tlačítky]
+
+Proměnná může uchovávat \textbf{nastavení} programu, které uživatel mění za chodu:
+
+\begin{lstlisting}
+from microbit import *
+
+rychlost = 400
+
+while True:
+    if button_a.was_pressed() and rychlost > 50:
+        rychlost = rychlost - 100
+    if button_b.was_pressed() and rychlost < 1000:
+        rychlost = rychlost + 200
+    display.show(Image.HEART)
+    sleep(rychlost)
+    display.clear()
+    sleep(rychlost)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program. Tlačítko A zrychluje, B zpomaluje blikání — vyzkoušej.
+  \item Co zajišťují podmínky \pyinline{rychlost > 50} a \pyinline{rychlost < 1000}?
+        Co by se stalo bez nich?
+  \item Přidej na displej zobrazení aktuální rychlosti — třeba každých 5~sekund
+        zobraz číslo \pyinline{rychlost // 100} (1–10).
+  \item \textbf{Výzva:} Místo srdce animuj svůj seznam obrázků z~úkolu~3.
+        Tlačítka budou řídit rychlost přehrávání animace.
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{bonusukol}
 
 \end{document}

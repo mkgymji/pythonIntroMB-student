@@ -27,8 +27,13 @@ while True:
     sleep(3000)
 \end{lstlisting}
 
+\hadej{Micro:bit měří teplotu procesoru — ne teplotu vzduchu.
+Odhadni: bude číslo vyšší nebo nižší než skutečná teplota v místnosti?
+Odhad: \underline{\hspace{4cm}}
+\quad Skutečnost: \underline{\hspace{4cm}}}
+
 \begin{enumerate}
-  \item Zadej program a spusť ho. Jakou teplotu ukazuje?
+  \item Zadej program a spusť ho. Jakou teplotu ukazuje? Odpovídá tvému odhadu?
   \item Co vrací \pyinline{temperature()} — \pyinline{int} nebo \pyinline{float}?
         Jak to snadno zjistíš?
   \item Přidej podmínku: nad 27~°C zobraz \pyinline{Image.HAPPY},
@@ -103,5 +108,45 @@ Podmínky:
 \noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Digitální vodováha]
+
+Vodováha indikuje, jestli je plocha vodorovná. Micro:bit zvládne totéž —
+kombinuje obě osy akcelerometru a \pyinline{abs()}:
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+
+    if abs(x) < 150 and abs(y) < 150:
+        display.show(Image.YES)      # rovne
+    elif abs(x) > abs(y):
+        if x > 0:
+            display.show(Image.ARROW_E)
+        else:
+            display.show(Image.ARROW_W)
+    else:
+        if y > 0:
+            display.show(Image.ARROW_S)
+        else:
+            display.show(Image.ARROW_N)
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a polož micro:bit na stůl — zobrazí se \pyinline{Image.YES}?
+  \item Proč se porovnávají hodnoty \pyinline{abs(x)} a \pyinline{abs(y)}?
+        Co by se stalo bez \pyinline{abs()}?
+  \item \textbf{Výzva:} Uprav práh ze 150 na 300 — jak se změní citlivost?
+        Jaká hodnota prahu dává nejpřesnější výsledky na tvém stole?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\end{bonusukol}
 
 \end{document}

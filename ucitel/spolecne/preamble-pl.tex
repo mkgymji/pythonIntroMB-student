@@ -83,6 +83,37 @@
   \vspace{#1}%
 }
 
+% --- Bonus úkol (pro pokročilé studenty) ---
+\definecolor{bonus-bg}{HTML}{FFFBEA}
+\definecolor{bonus-frame}{HTML}{D4A017}
+\newenvironment{bonusukol}[1][]{%
+  \begin{tcolorbox}[
+    colback=bonus-bg,
+    colframe=bonus-frame,
+    fonttitle=\bfseries,
+    title={$\star$ Bonus\ifx\relax#1\relax\else{: #1}\fi},
+    breakable,
+    left=6pt, right=6pt, top=4pt, bottom=4pt
+  ]%
+}{%
+  \end{tcolorbox}%
+}
+
+% --- Predikce před spuštěním ---
+\definecolor{hadej-bg}{HTML}{EDF7FF}
+\definecolor{hadej-frame}{HTML}{5B9BD5}
+\newcommand{\hadej}[1]{%
+  \begin{tcolorbox}[
+    colback=hadej-bg,
+    colframe=hadej-frame,
+    fonttitle=\small\bfseries,
+    title={Hádej nejdřív — než spustíš program},
+    left=6pt, right=6pt, top=3pt, bottom=3pt
+  ]%
+  \small #1%
+  \end{tcolorbox}%
+}
+
 % --- Záhlaví / zápatí ---
 \usepackage{fancyhdr}
 \pagestyle{fancy}

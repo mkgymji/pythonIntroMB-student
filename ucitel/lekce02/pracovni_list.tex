@@ -65,10 +65,13 @@ vek = 16
 display.scroll(jmeno + " " + str(vek))
 \end{lstlisting}
 
+\hadej{Co se zobrazí? A co se stane, když odstraníš \pyinline{str(vek)}?\\
+Odhad: \underline{\hspace{7cm}}}
+
 \begin{enumerate}
   \item Zadej program a spusť ho. Co se zobrazí?
   \item Co dělá \pyinline{str(vek)}? Zkus \pyinline{str()} odstranit a spusť program.
-        Co se stane a proč?
+        Jaký typ chyby Python ohlásí? Proč?
 \end{enumerate}
 
 \odpoved[3cm]
@@ -96,5 +99,33 @@ Všechny proměnné definuj na začátku programu a zprávu sestav spojením pom
 \noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Debuggování — najdi chybu]
+
+Tento program má chybu. Najdi ji, oprav a vysvětli, co bylo špatně:
+
+\begin{lstlisting}
+from microbit import *
+
+jmeno = "Tomas"
+trida = "1.B"
+
+display.scroll(jmena + " z " + trida)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zkopíruj program do Thonny a spusť ho. Jakou chybu Python ohlásí?
+  \item Oprav chybu \textbf{bez} přepisování celého programu.
+  \item Vysvětli vlastními slovy: proč Python tuto chybu nezachytí dřív,
+        než program spustíš?
+\end{enumerate}
+
+\textit{Tip: Přečti si chybovou zprávu pozorně — Python ti napíše, na
+kterém řádku problém nastane.}
+
+\odpoved[2cm]
+
+\end{bonusukol}
 
 \end{document}

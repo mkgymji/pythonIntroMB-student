@@ -33,8 +33,9 @@ while True:
   \item Zkus zaměnit \pyinline{music.BIRTHDAY} za jinou:
         \pyinline{music.NYAN}, \pyinline{music.FUNK}, \pyinline{music.DADADADUM}.
   \item Přidej tlačítko B pro druhou melodii (použij \pyinline{elif}).
-  \item Co se stane, pokud stiskneš A a melodie stále hraje?
-        Jak bys program upravil, aby melodii přerušil?
+  \item \pyinline{music.play()} hraje blokujícím způsobem — program čeká, dokud melodie neskončí.
+        Zkus stisknout A při přehrávání.
+        Jak bys melodii přerušil? \textit{(Tip: \pyinline{music.stop()})}
 \end{enumerate}
 
 \odpoved[2cm]
@@ -104,5 +105,43 @@ Podmínky:
 \noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Generátor náhodné melodie]
+
+Každé zatřesení vygeneruje novou, jedinečnou melodii z předem daných not.
+Propojení \pyinline{random.choice()} (lekce~5) se seznamy a \pyinline{append()}:
+
+\begin{lstlisting}
+from microbit import *
+import music
+import random
+
+noty    = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"]
+delky   = ["4", "4", "4", "2", "8"]   # cetnost ovlivni rytmus
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        melodie = []
+        for i in range(8):
+            nota  = random.choice(noty)
+            delka = random.choice(delky)
+            melodie.append(nota + ":" + delka)
+        music.play(melodie)
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a zatřes — každá melodie je jiná!
+  \item Co dělá \pyinline{melodie.append(...)}? Proč začínáme s prázdným seznamem?
+  \item Uprav seznam \pyinline{noty} — vynech F a B (pentatonická stupnice).
+        Zní melodie příjemněji? Proč?
+  \item \textbf{Výzva:} Přidej do \pyinline{delky} více čtvrťových not
+        (\pyinline{"4"}) — jak to ovlivní charakter melodie?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\end{bonusukol}
 
 \end{document}

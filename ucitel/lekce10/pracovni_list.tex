@@ -92,4 +92,42 @@ spolu s krátkým popisem (2--4 věty).
 
 \end{ukol}
 
+% ------------------------------------------------------------------
+\begin{bonusukol}[Výzvy pro rychlé]
+
+Jsi hotov/a dřív než ostatní? Rozšiř svůj projekt jednou z těchto výzev:
+
+\medskip
+\textbf{Výzva A — Rekord (highscore):}\\
+Přidej proměnnou, která si pamatuje nejlepší výsledek a ukáže ho po stisku B.
+\begin{lstlisting}
+rekord = 0
+# ...
+if skore > rekord:
+    rekord = skore
+    display.show(Image.HAPPY)
+\end{lstlisting}
+
+\medskip
+\textbf{Výzva B — Odpočítávání před startem:}\\
+Na začátku programu zobraz odpočet 3–2–1 a teprve pak spusť hlavní smyčku.
+\begin{lstlisting}
+for i in range(3, 0, -1):
+    display.show(str(i))
+    sleep(700)
+display.show(Image.YES)
+\end{lstlisting}
+
+\medskip
+\textbf{Výzva C — Konfigurace přes tlačítka:}\\
+Přidej „nastavovací" obrazovku: tlačítkem A/B nastavíš parametr programu
+(rychlost, obtížnost, počet pokusů) a teprve pak program spustíš.
+
+\medskip
+\textit{Vyber si jednu výzvu, implementuj ji a krátce popiš, co jsi přidal/a.}
+
+\odpoved[3cm]
+
+\end{bonusukol}
+
 \end{document}

@@ -29,13 +29,23 @@ while True:
     sleep(100)
 \end{lstlisting}
 
+\hadej{Hod kostkou — předem tipni 5 výsledků, pak porovnej:
+
+\medskip
+\begin{tabular}{llllll}
+  & Hod 1 & Hod 2 & Hod 3 & Hod 4 & Hod 5 \\
+  \midrule
+  Odhad & \hspace{1cm} & \hspace{1cm} & \hspace{1cm} & \hspace{1cm} & \hspace{1cm} \\[4pt]
+  Skutečnost & & & & & \\
+\end{tabular}}
+
 \begin{enumerate}
   \item Zadej program a spusť ho. Zatřes micro:bitem — zobrazí se číslo 1–6.
   \item Co dělá \pyinline{random.randint(1, 6)}?
         Může vrátit číslo 6? A číslo 0?
   \item Uprav program na desetistěnnou kostku (1–10).
   \item Co dělá \pyinline{sleep(100)} na konci smyčky?
-        Zkus ho odstranit — co se změní?
+        Zkus ho odstranit — co se změní a proč?
 \end{enumerate}
 
 \odpoved[2.5cm]
@@ -105,5 +115,49 @@ Podmínky:
 \noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Uhádni číslo — hra pro jednoho]
+
+Micro:bit si vybere tajné číslo 1–3. Ty hádáš: tlačítko A = hádám 1,
+tlačítko B = hádám 2, obě = hádám 3.
+
+\begin{lstlisting}
+from microbit import *
+import random
+
+tajne = random.randint(1, 3)
+
+while True:
+    if button_a.was_pressed() and button_b.was_pressed():
+        tip = 3
+    elif button_a.was_pressed():
+        tip = 1
+    elif button_b.was_pressed():
+        tip = 2
+    else:
+        tip = 0
+
+    if tip != 0:
+        if tip == tajne:
+            display.show(Image.HAPPY)
+        else:
+            display.show(Image.SAD)
+            display.scroll(str(tajne))   # prozrad spravnou odpoved
+        tajne = random.randint(1, 3)     # nova hra
+    sleep(50)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a zahraj si — uhodneš správné číslo?
+  \item Proč se \pyinline{tajne = random.randint(1, 3)} opakuje i uvnitř smyčky?
+        Co by se stalo bez tohoto řádku?
+  \item \textbf{Výzva:} Přidej proměnnou \pyinline{skore}, která počítá správné tipy.
+        Po každé správné odpovědi zobraz aktuální skóre.
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\end{bonusukol}
 
 \end{document}

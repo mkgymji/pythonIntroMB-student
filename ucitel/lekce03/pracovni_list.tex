@@ -116,4 +116,36 @@ Výsledný kód ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
 
+% ------------------------------------------------------------------
+\begin{bonusukol}[Počítadlo stisku tlačítka]
+
+Proměnná může uchovávat \textbf{stav}, který se mění za běhu programu —
+ne jen jednou na začátku, ale průběžně:
+
+\begin{lstlisting}
+from microbit import *
+
+pocet = 0
+
+while True:
+    if button_a.was_pressed():
+        pocet = pocet + 1
+        display.show(str(pocet))
+    sleep(50)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a mačkej tlačítko A — sleduj, jak číslo roste.
+        Co se stane po devítce? (Opravdu zkus!)
+  \item Přidej tlačítko B, které počítadlo resetuje na 0.
+  \item \textbf{Výzva:} Uprav program tak, aby po 5~stiscích zobrazil
+        \pyinline{Image.HAPPY}, pak se automaticky resetoval na 0
+        a začal znovu.
+        \textit{(Tip: \pyinline{if pocet >= 5: pocet = 0})}
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{bonusukol}
+
 \end{document}

@@ -50,6 +50,9 @@ from microbit import *
 display.scroll("Ahoj!")
 \end{lstlisting}
 
+\hadej{Co se zobrazí na displeji? Jak dlouho text „jede"?
+Odhadni, než zmáčkneš F5.}
+
 Spusť program klávesou \textbf{F5} (nebo tlačítkem \textbf{Run} v~nástrojové liště).
 Sleduj displej micro:bitu.
 
@@ -96,6 +99,35 @@ Napoví ti funkce \pyinline{sleep(1000)} — čeká 1000~milisekund (= 1~sekundu
 \odpoved[2cm]
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Vlastní obrázek]
+
+Micro:bit umí zobrazit obrázek, který si sám nakreslíš.
+Každý řádek displeje je 5~číslic (0~=~zhasnuto, 9~=~plný jas):
+
+\begin{lstlisting}
+from microbit import *
+
+muj_obrazek = Image("09090:"
+                    "90909:"
+                    "09090:"
+                    "90909:"
+                    "09090")
+
+display.show(muj_obrazek)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program — co se zobrazí?
+  \item Uprav čísla a vytvoř vlastní vzor: obličej, písmeno, tvar \ldots
+  \item \textbf{Výzva:} Udělej dva různé obrázky a zobraz je střídavě se
+        \pyinline{sleep(500)} mezi nimi.
+\end{enumerate}
+
+\odpoved[2cm]
+
+\end{bonusukol}
 
 % ------------------------------------------------------------------
 \begin{ukol}[Připrav program k odevzdání]

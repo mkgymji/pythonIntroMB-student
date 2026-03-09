@@ -31,6 +31,8 @@ print("bit" in zprava)
 print("xyz" in zprava)
 \end{lstlisting}
 
+\medskip\noindent\textit{Tyto příkazy zadávej přímo v dolním panelu Thonny (REPL) — po každém stiskni Enter.}
+
 \begin{enumerate}
   \item Doplň výsledky do tabulky:
         \medskip
@@ -123,5 +125,38 @@ Podmínky:
 \noindent Výsledný program ulož a připrav k odevzdání do Google Classroom.
 
 \end{ukol}
+
+% ------------------------------------------------------------------
+\begin{bonusukol}[Otočená zpráva]
+
+Řetězec lze procházet znak po znaku — stejně jako seznam:
+
+\begin{lstlisting}
+from microbit import *
+
+zprava = "HELLO"
+obracene = ""
+
+for znak in zprava:
+    obracene = znak + obracene   # pridavam na zacatek!
+
+display.scroll(obracene)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Spusť program — co se zobrazí?
+        Vysvětli, jak cyklus pracuje: co je v \pyinline{obracene}
+        po každém průchodu?
+  \item Nahraď \pyinline{"HELLO"} za své jméno. Funguje program?
+  \item \textbf{Výzva:} Uprav program tak, aby po zatřesení přijal
+        zprávu přes radio a zobrazil ji odzadu.
+        \textit{(Tip: přijatou zprávu dej do proměnné, pak otoč.)}
+  \item \textbf{Super výzva:} Napiš funkci \pyinline{otoc(text)},
+        která vrátí obrácený řetězec a volej ji ze smyčky.
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{bonusukol}
 
 \end{document}

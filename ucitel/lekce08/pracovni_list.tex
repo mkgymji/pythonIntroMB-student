@@ -107,4 +107,43 @@ Podmínky:
 
 \end{ukol}
 
+% ------------------------------------------------------------------
+\begin{bonusukol}[Funkce vracející seznam]
+
+Funkce může vracet nejen číslo, ale i celý seznam výsledků:
+
+\begin{lstlisting}
+from microbit import *
+import random
+
+def generuj_hody(pocet, strany=6):
+    vysledky = []
+    for i in range(pocet):
+        vysledky.append(random.randint(1, strany))
+    return vysledky
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        hody  = generuj_hody(3)        # tri sestistenne kostky
+        soucet = 0
+        for h in hody:
+            soucet = soucet + h
+        display.scroll(str(soucet))
+    sleep(100)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Zadej program a zatřes — zobrazí se součet tří kostek.
+  \item Jaký typ dat vrací \pyinline{generuj_hody()}? Jak to poznáš?
+  \item Uprav volání tak, aby házel 5 dvacetistěnných kostek:
+        \pyinline{generuj_hody(5, strany=20)}.
+  \item \textbf{Výzva:} Napiš funkci \pyinline{prumer(seznam)}, která vrátí
+        průměr čísel ze seznamu (\pyinline{sum(seznam) // len(seznam)}).
+        Zobraz průměr hodu spolu se součtem.
+\end{enumerate}
+
+\odpoved[3cm]
+
+\end{bonusukol}
+
 \end{document}
