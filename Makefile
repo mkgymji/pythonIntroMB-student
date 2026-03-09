@@ -38,6 +38,7 @@ clean:
 
 distclean: clean
 	@rm -f student/lekce*/*.pdf
+	@rm -f ucitel/lekce*/*.pdf
 
 push-public:
 	./push-public.sh
