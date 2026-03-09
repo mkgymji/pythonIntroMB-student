@@ -131,14 +131,12 @@
     \end{column}
     \begin{column}{0.44\textwidth}
       \centering
-      \begin{tikzpicture}
-        \foreach \i/\text in {0/příkaz 1, 1/příkaz 2, 2/příkaz 3}{
-          \node[draw=microbit-blue, fill=microbit-lightblue,
-                rounded corners=3pt, minimum width=3cm, minimum height=0.65cm,
-                font=\small] (b\i) at (0, {-\i*1.0}) {\text};
-        }
-        \draw[->, thick, microbit-blue] (b0) -- (b1);
-        \draw[->, thick, microbit-blue] (b1) -- (b2);
+      \begin{tikzpicture}[node distance=0.5cm]
+        \node[fc-process] (b0) {příkaz 1};
+        \node[fc-process, below=of b0] (b1) {příkaz 2};
+        \node[fc-process, below=of b1] (b2) {příkaz 3};
+        \draw[fc-arrow] (b0) -- (b1);
+        \draw[fc-arrow] (b1) -- (b2);
       \end{tikzpicture}
     \end{column}
   \end{columns}
@@ -172,8 +170,10 @@
       \medskip
       \small
       \begin{tabular}{ll}
+        \toprule
         \textbf{akce:}    & Ohřej \\
         \textbf{nastavení:} & 2 minuty \\
+        \bottomrule
       \end{tabular}
     \end{column}
     \begin{column}{0.50\textwidth}
@@ -187,8 +187,10 @@ display.scroll("Ahoj!")
       \medskip
       \small
       \begin{tabular}{ll}
+        \toprule
         \textbf{jméno funkce:} & \pyinline{display.scroll} \\
         \textbf{argument:}     & \pyinline{"Ahoj!"} \\
+        \bottomrule
       \end{tabular}
 
       \medskip\medskip
