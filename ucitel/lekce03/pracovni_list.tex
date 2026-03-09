@@ -128,11 +128,22 @@ from microbit import *
 pocet = 0
 
 while True:
-    if button_a.was_pressed():
+    if button_a.was_pressed():   # True jen jednou za stisk
         pocet = pocet + 1
         display.show(str(pocet))
     sleep(50)
 \end{lstlisting}
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=\texttt{is\_pressed()} vs \texttt{was\_pressed()}]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{is_pressed()} — \pyinline{True} po celou dobu, kdy tlačítko \textbf{držíš}.
+          Ve smyčce by počítadlo skočilo na vysoké číslo najednou.
+    \item \pyinline{was_pressed()} — \pyinline{True} jen \textbf{jednou} po stisku, pak reset.
+          Proto ho použijeme pro počítadlo.
+  \end{itemize}
+\end{tcolorbox}
 
 \begin{enumerate}
   \item Zadej program a mačkej tlačítko A — sleduj, jak číslo roste.
