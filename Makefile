@@ -10,9 +10,9 @@
 LEKCE    := $(sort $(wildcard ucitel/lekce*))
 LATEXMK  := latexmk -xelatex -interaction=nonstopmode
 
-.PHONY: all clean distclean push-public $(notdir $(LEKCE))
+.PHONY: all clean distclean push-public lekce01 lekce02 lekce03 lekce04 lekce05 lekce06 lekce07 lekce08 lekce09 lekce10 lekce11
 
-all: $(notdir $(LEKCE))
+all: lekce01 lekce02 lekce03 lekce04 lekce05 lekce06 lekce07 lekce08 lekce09 lekce10 lekce11
 
 # Pomocny skript pro kompilaci jedne lekce (vyhyba se define/eval escapingu)
 compile-lekce = \
@@ -73,6 +73,11 @@ lekce10:
 	@echo "==> Kompilace lekce10..."
 	@$(call compile-lekce,lekce10)
 	@echo "    PDF -> student/lekce10/"
+
+lekce11:
+	@echo "==> Kompilace lekce11..."
+	@$(call compile-lekce,lekce11)
+	@echo "    PDF -> student/lekce11/"
 
 clean:
 	@for d in $(LEKCE); do \

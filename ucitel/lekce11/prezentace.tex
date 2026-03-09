@@ -1,0 +1,114 @@
+% prezentace.tex -- Lekce 11: Volný projekt
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 11: Volný projekt}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co všechno umíme}
+
+  Za deset lekcí jsme prošli celý základ Pythonu:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    \textbf{Lekce} & \textbf{Python} & \textbf{Micro:bit} \\
+    \midrule
+    01 & volání funkcí, skript  & \texttt{display.show/scroll} \\
+    02 & proměnné, \texttt{int}, \texttt{str} & vizitka \\
+    03 & \texttt{if / elif / else} & tlačítka \\
+    04 & \texttt{while}, \texttt{for}, \texttt{sleep()} & animace \\
+    05 & \texttt{import random} & hod kostkou \\
+    06 & \texttt{float}, operátory & senzory \\
+    07 & seznamy, \texttt{import music} & melodie \\
+    08 & \texttt{def}, parametry, \texttt{return} & refaktoring \\
+    09 & řetězce, \texttt{import radio} & komunikace \\
+    10 & rádio — protokoly, hra & hra dvou hráčů \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Nápady na projekty}
+
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Jednodušší (\(\bigstar\))}
+        \begin{itemize}
+          \item Digitální kostka s animací
+          \item Stopky / odpočítávání
+          \item Teploměr s varováním
+          \item Věštírna s obrázky
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Náročnější (\(\bigstar\bigstar\))}
+        \begin{itemize}
+          \item Jukebox s vlastními melodiemi
+          \item Hádej číslo (micro:bit vs.\ hráč)
+          \item Komunikátor přes radio
+          \item Hra pro dva hráče (radio)
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  \begin{exampleblock}{Vlastní nápad?}
+    Cokoliv, co tě baví — pokud to funguje a využívá alespoň 3~koncepty z~kurzu.
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Jak na projekt}
+
+  \begin{enumerate}
+    \item \textbf{Vyber si téma} — co bude micro:bit dělat?
+    \item \textbf{Napiš plán} — jaké koncepty použiješ? Jaké funkce nadefinuješ?
+    \item \textbf{Rozděl na části} — začni nejjednodušší částí, postupně rozšiřuj
+    \item \textbf{Testuj průběžně} — ověř, že každá část funguje, než přidáš další
+    \item \textbf{Odevzdej} — kód + krátký popis co program dělá
+  \end{enumerate}
+
+  \bigskip
+  \begin{alertblock}{Tip}
+    Fungující jednoduchý program je lepší než nefungující složitý.\\
+    Začni základem — vylepšovat můžeš vždy.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co odevzdat}
+
+  \begin{itemize}
+    \item[\checkmark] \textbf{Zdrojový kód} (soubor \texttt{.py})
+    \item[\checkmark] \textbf{Krátký popis} — co program dělá a které koncepty jsi použil/a
+    \item[\checkmark] Volitelně: \textbf{video} s ukázkou programu v~akci
+  \end{itemize}
+
+  \bigskip
+  Program musí:
+  \begin{itemize}
+    \item fungovat (být „kompletní", ne jen fragment)
+    \item využívat alespoň \textbf{3 koncepty} z~kurzu
+    \item obsahovat alespoň \textbf{1 vlastní funkci} (\pyinline{def})
+  \end{itemize}
+
+  \bigskip
+  \begin{block}{Hodnocení}
+    Klíčová otázka: „Fungovalo by to na jiném micro:bitu?"\\
+    Pokud ano — splnil/a jsi zadání.
+  \end{block}
+\end{frame}
+
+\end{document}

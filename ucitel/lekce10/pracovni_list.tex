@@ -1,130 +1,349 @@
-% pracovni_list.tex -- Lekce 10: Volný projekt
+% pracovni_list.tex -- Lekce 10: Rádio — hra dvou hráčů
 \newcommand{\lekce}{Lekce 10 -- Pracovní list}
 \input{../spolecne/preamble-pl.tex}
 
 \begin{document}
 
 \begin{center}
-  {\Large\bfseries\textcolor{microbit-blue}{Lekce 10: Volný projekt}}\\[4pt]
-  {\large Plánovací list}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 10: Rádio — hra dvou hráčů}}\\[4pt]
+  {\large Reakcní hra a kámen-nůžky-papír}
 \end{center}
 
 \medskip\noindent
-Dnes si programuješ, co chceš — použij vše, co jsi se naučil/a.
-Nejdřív si ale projekt naplánuj.
+Dnes naprogramujeme dvě hry, které fungují přes rádio.
+Každý z~vás napíše kód, který poběží na \emph{vlastním} micro:bitu —
+a obě zařízení budou spolupracovat podle dohodnutého \textbf{protokolu}.
 
-% ------------------------------------------------------------------
-\begin{ukol}[Plán projektu]
+\medskip\noindent
+\textbf{Protokol} = přesně definovaná sada zpráv a pravidel, kdo, kdy a co posílá.
+Bez protokolu si zařízení nerozumějí — jako dva lidé, kteří mluví různými jazyky.
 
-\textbf{Název projektu:}
-\odpoved[1cm]
+% ==================================================================
+\section*{Část 1: Reakcní hra „Rychlé prsty"}
 
-\noindent\textbf{Co bude micro:bit dělat?} (1--3 věty)
-\odpoved[2cm]
-
-\noindent\textbf{Jaké koncepty z kurzu použiješ?} (zaškrtni alespoň 3)
+\noindent\textbf{Pravidla hry:}
+\begin{enumerate}
+  \item Jeden hráč je \textbf{hostitel} (spouští kola stiskem~B).
+  \item Hostitel počká náhodnou dobu (1–4~s), aby soupeř nevěděl kdy.
+  \item Pak pošle signál \pyinline{"NYNI"} — oba micro:bity zobrazí \texttt{!}
+  \item Kdo dřív stiskne~A, vyhrál kolo:
+    \begin{itemize}
+      \item Vítěz — hostitel: neposílá nic, ale registruje svůj stisk.
+      \item Vítěz — host: pošle \pyinline{"HIT"}.
+    \end{itemize}
+  \item Hostitel vyhodnotí výsledek, pošle \pyinline{"PROHRAL"} hostu (pokud host prohrál)
+        a zobrazí skóre oběma.
+\end{enumerate}
 
 \medskip
-\begin{tabular}{llll}
-  {[ ]} proměnné (\pyinline{int}, \pyinline{str}, \pyinline{float}) &
-  {[ ]} podmínky (\pyinline{if}/\pyinline{elif}/\pyinline{else}) &
-  {[ ]} cyklus (\pyinline{while}/\pyinline{for}) &
-  {[ ]} \pyinline{random} \\[6pt]
-  {[ ]} \pyinline{temperature()} &
-  {[ ]} \pyinline{accelerometer} &
-  {[ ]} seznamy &
-  {[ ]} \pyinline{music} \\[6pt]
-  {[ ]} funkce (\pyinline{def}) &
-  {[ ]} řetězcové operace &
-  {[ ]} \pyinline{radio} &
-  {[ ]} jiné: \hspace{2cm} \\
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  \textbf{Zpráva} & \textbf{Kdo posílá} & \textbf{Kdy} \\
+  \midrule
+  \pyinline{"NYNI"}    & hostitel & po náhodné prodlevě — startuje kolo \\
+  \pyinline{"HIT"}     & host     & co nejdřív po zobrazení \texttt{!} \\
+  \pyinline{"PROHRAL"} & hostitel & pokud \pyinline{"HIT"} přišlo dřív než stiskl A \\
+  \bottomrule
 \end{tabular}
-
-\medskip
-\noindent\textbf{Jaké vstupy bude program mít?}
-(tlačítka, třepání, teplota, radio\ldots)
-\odpoved[1.5cm]
-
-\noindent\textbf{Jaké výstupy bude program mít?}
-(display, scroll, zvuk, radio\ldots)
-\odpoved[1.5cm]
-
-\noindent\textbf{Jaké funkce (\pyinline{def}) nadefinuješ?} (alespoň 1)
-\odpoved[1.5cm]
-
-\end{ukol}
+\end{center}
 
 % ------------------------------------------------------------------
-\begin{ukol}[Skica programu]
+\begin{ukol}[Program hostitele]
 
-Napiš \textbf{pseudokód nebo kostru programu} — hlavní části, ne nutně funkční kód.
+Hostitel \textbf{spouští kola} a \textbf{vyhodnocuje výsledek}.
+Přečti celý program, pak ho napiš do Thonny a otestuj sám (bez soupeře):
+po stisku~B by se mělo zobrazit~\texttt{!}.
 
 \begin{lstlisting}
 from microbit import *
-# import dalsich modulu...
+import radio
+import random
 
-# definice funkci...
+radio.config(channel=42)  # oba musí mít stejný kanál!
+radio.on()
+
+skore_ja = 0
+skore_souper = 0
 
 while True:
-    # hlavni smycka...
-    pass
+    display.show(Image.ASLEEP)   # čekáme na spuštění kola
+
+    # Hostitel startuje kolo stiskem B
+    if button_b.was_pressed():
+
+        # Náhodná prodleva — soupeř neví kdy přijde signál
+        sleep(random.randint(1000, 4000))
+
+        # Pošli signál a zobraz vykřičník
+        radio.send("NYNI")
+        display.show("!")
+
+        # Závodíme — kdo stiskne A dřív?
+        vitez = None
+        while vitez is None:
+            if button_a.was_pressed():
+                vitez = "JA"
+            prijato = radio.receive()
+            if prijato == "HIT":
+                vitez = "SOUPER"
+
+        # Vyhodnocení
+        if vitez == "JA":
+            radio.send("PROHRAL")   # informuj hosta, že prohrál
+            skore_ja += 1
+            display.show(Image.HAPPY)
+        else:
+            skore_souper += 1
+            display.show(Image.SAD)
+
+        sleep(1500)
+        display.scroll(str(skore_ja) + ":" + str(skore_souper))
 \end{lstlisting}
 
-\odpoved[6cm]
-
-\end{ukol}
-
-% ------------------------------------------------------------------
-\begin{ukol}[Realizace a reflexe]
-
-Po dokončení projektu odpověz:
-
+\textbf{Klíčové části programu — ujisti se, že jim rozumíš:}
 \begin{enumerate}
-  \item Co se ti povedlo? Co jsi musel/a upravit oproti plánu?
-  \item Jaký koncept byl nejtěžší? Kde jsi potřeboval/a pomoc?
-  \item Co bys přidal/a, kdybys měl/a více času?
+  \item Proč je podmínka \pyinline{while vitez is None}? Co se stane, když nikdo nestiskne A?
+  \item Co se stane, pokud oba stisknou~A téměř ve stejný okamžik?
+        (Tip: záleží na tom, která zpráva dorazí první.)
+  \item Co zobrazuje \pyinline{display.scroll(str(skore_ja) + ":" + str(skore_souper))}?
 \end{enumerate}
 
-\odpoved[4cm]
-
-\noindent Výsledný program ulož a připrav k odevzdání do Google Classroom
-spolu s krátkým popisem (2--4 věty).
+\odpoved[2cm]
 
 \end{ukol}
 
 % ------------------------------------------------------------------
-\begin{bonusukol}[Výzvy pro rychlé]
+\begin{ukol}[Program hosta]
 
-Jsi hotov/a dřív než ostatní? Rozšiř svůj projekt jednou z těchto výzev:
+Host \textbf{čeká na signál} a \textbf{reaguje co nejrychleji}.
+Program je téměř zrcadlový — liší se jen v~tom, kdo iniciuje kolo.
 
-\medskip
-\textbf{Výzva A — Rekord (highscore):}\\
-Přidej proměnnou, která si pamatuje nejlepší výsledek a ukáže ho po stisku B.
 \begin{lstlisting}
-rekord = 0
-# ...
-if skore > rekord:
-    rekord = skore
-    display.show(Image.HAPPY)
+from microbit import *
+import radio
+
+radio.config(channel=42)  # stejný kanál jako hostitel!
+radio.on()
+
+skore_ja = 0
+skore_souper = 0
+
+while True:
+    display.show(Image.ASLEEP)   # čekáme na signál "NYNI"
+
+    # Čekej, dokud nepřijde signál od hostitele
+    prijato = radio.receive()
+
+    if prijato == "NYNI":
+        display.show("!")   # signál přišel — reaguj co nejrychleji!
+
+        # Závodíme — kdo stiskne A dřív?
+        vitez = None
+        while vitez is None:
+            if button_a.was_pressed():
+                vitez = "JA"
+                radio.send("HIT")   # oznám hostiteli, že jsi stiskl
+            prijato2 = radio.receive()
+            if prijato2 == "PROHRAL":
+                vitez = "SOUPER"
+
+        # Výsledek
+        if vitez == "JA":
+            skore_ja += 1
+            display.show(Image.HAPPY)
+        else:
+            skore_souper += 1
+            display.show(Image.SAD)
+
+        sleep(1500)
+        display.scroll(str(skore_ja) + ":" + str(skore_souper))
 \end{lstlisting}
 
-\medskip
-\textbf{Výzva B — Odpočítávání před startem:}\\
-Na začátku programu zobraz odpočet 3–2–1 a teprve pak spusť hlavní smyčku.
+\textbf{Otázka:} Proč host nepotřebuje \pyinline{import random}?
+Kdo generuje náhodnou prodlevu a proč to tak dává smysl?
+
+\odpoved[1.5cm]
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Hra naživo]
+
+Jeden z~vás nahraje program hostitele, druhý program hosta.
+Zkontrolujte, že máte \textbf{stejné číslo kanálu} (\pyinline{channel=42}).
+
+\begin{enumerate}
+  \item Odehrajte 5 kol. Zapište výsledky:
+
+  \medskip
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Kolo} & \textbf{Vítěz} & \textbf{Průběžné skóre} \\
+    \midrule
+    1 & & \\[4pt]
+    2 & & \\[4pt]
+    3 & & \\[4pt]
+    4 & & \\[4pt]
+    5 & & \\
+    \bottomrule
+  \end{tabular}
+
+  \medskip
+  \item Zkuste snížit prodlevu na \pyinline{random.randint(500, 1500)}.
+        Co se změní?
+  \odpoved[1cm]
+
+  \item Zkuste přidat \textbf{zvukový signál} při zobrazení \texttt{!}.
+        Stačí jedna řádka navíc — kde ji přidáš? Do programu hostitele, hosta, nebo obou?
+  \odpoved[1cm]
+\end{enumerate}
+
+\end{ukol}
+
+% ==================================================================
+\section*{Část 2 (bonus): Kámen-nůžky-papír přes rádio}
+
+\noindent
+Reakcní hra měla \emph{asymetrický} protokol — jeden hráč byl hostitel a druhý host.
+Teď naprogramujeme \textbf{symetrickou} hru, kde oba spouštějí \pyinline{stejný} program.
+
+\medskip\noindent
+\textbf{Problém:} Jak se domluvit na zahájení kola bez učitele nebo centrálního hostitele?
+
+\medskip\noindent
+\textbf{Řešení:} Každé zařízení si losuje náhodnou dobu čekání.
+Komu čas vyprší dřív, ten \emph{zapípá} a pošle zprávu \pyinline{"GO"}.
+Druhé zařízení zprávu \pyinline{"GO"} přijme, taky zapípá a oba jsou synchronizovaní
+(s~malým zpožděním rádia, které je v~praxi pod 10~ms — nehraje roli).
+
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  \textbf{Zpráva} & \textbf{Kdo posílá} & \textbf{Kdy} \\
+  \midrule
+  \pyinline{"GO"} & to zařízení, jemuž vyprší náhodný čas dřív & startuje kolo \\
+  \pyinline{"K"}  & každý hráč & svůj výběr (kámen) \\
+  \pyinline{"N"}  & každý hráč & svůj výběr (nůžky) \\
+  \pyinline{"P"}  & každý hráč & svůj výběr (papír) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip\noindent
+\textbf{Ovládání:} \quad A = kámen \quad B = nůžky \quad A+B (obě najednou) = papír
+
+\begin{bonusukol}[Kámen-nůžky-papír]
+
+Oba hráči \textbf{nahrajou stejný program}. Program zajistí synchronizaci sám.
+
 \begin{lstlisting}
-for i in range(3, 0, -1):
-    display.show(str(i))
-    sleep(700)
-display.show(Image.YES)
+from microbit import *
+import radio
+import random
+import music
+
+radio.config(channel=42)
+radio.on()
+
+def vyhodnot(moje, souperova):
+    """Vrátí 'VYHRAL', 'PROHRAL' nebo 'REMIZA'."""
+    if moje == souperova:
+        return "REMIZA"
+    vyhry = [("K", "N"), ("N", "P"), ("P", "K")]
+    if (moje, souperova) in vyhry:
+        return "VYHRAL"
+    return "PROHRAL"
+
+while True:
+    display.show(Image.ASLEEP)
+
+    # --- Krok 1: Synchronizace ---
+    # Každé zařízení čeká náhodnou dobu.
+    # Komu vyprší čas dřív, ten zapípá a pošle "GO".
+    # Druhé zařízení přijme "GO" a taky zapípá.
+    # Výsledek: oba vědí, že kolo začíná.
+
+    cas_cekani = random.randint(2000, 5000)
+    konec = running_time() + cas_cekani
+
+    while running_time() < konec:
+        zprava = radio.receive()
+        if zprava == "GO":
+            music.pitch(880, 200)   # soupeř byl rychlejší — jen zapípej
+            break
+        sleep(50)
+    else:
+        # Sem se dostaneme jen když while skončil PŘIROZENĚ (čas vypršel)
+        # — jsem byl rychlejší, zapípám a oznámím
+        music.pitch(880, 200)
+        radio.send("GO")
+
+    # --- Krok 2: Výběr ---
+    # Po pípnutí máš 3 sekundy na výběr.
+    # A = kámen, B = nůžky, A+B = papír
+
+    display.show("?")
+    volba = None
+    konec_volby = running_time() + 3000
+
+    while running_time() < konec_volby and volba is None:
+        if button_a.is_pressed() and button_b.is_pressed():
+            volba = "P"
+        elif button_a.was_pressed():
+            volba = "K"
+        elif button_b.was_pressed():
+            volba = "N"
+        sleep(20)
+
+    if volba is None:
+        display.scroll("CAS!")
+        continue
+
+    display.show(volba)      # ukáže K, N nebo P
+    radio.send(volba)        # pošli výběr soupeři
+
+    # --- Krok 3: Čekej na soupeřův výběr ---
+    souperova = None
+    konec_soupere = running_time() + 5000
+
+    while running_time() < konec_soupere and souperova is None:
+        zprava = radio.receive()
+        if zprava in ["K", "N", "P"]:
+            souperova = zprava
+        sleep(20)
+
+    if souperova is None:
+        display.scroll("TIMEOUT")
+        continue
+
+    # --- Krok 4: Výsledek ---
+    vysledek = vyhodnot(volba, souperova)
+
+    sleep(500)
+    if vysledek == "VYHRAL":
+        display.show(Image.HAPPY)
+    elif vysledek == "PROHRAL":
+        display.show(Image.SAD)
+    else:
+        display.show(Image.MEH)
+
+    sleep(1500)
+    display.scroll(vysledek)
 \end{lstlisting}
 
-\medskip
-\textbf{Výzva C — Konfigurace přes tlačítka:}\\
-Přidej „nastavovací" obrazovku: tlačítkem A/B nastavíš parametr programu
-(rychlost, obtížnost, počet pokusů) a teprve pak program spustíš.
+\textbf{Zamysli se:}
+\begin{enumerate}
+  \item Co dělá \pyinline{while...else} (řádky se synchronizací)?
+        Hint: \pyinline{else} u \pyinline{while} se spustí jen pokud smyčka
+        skončila \emph{přirozeně} (podmínka se stala nepravdivou) — ne přes \pyinline{break}.
 
-\medskip
-\textit{Vyber si jednu výzvu, implementuj ji a krátce popiš, co jsi přidal/a.}
+  \item Co se stane, pokud obě zařízení losují téměř stejný čas a obě pošlou \pyinline{"GO"}
+        téměř současně? Je to chyba?
+
+  \item Funkce \pyinline{vyhodnot()} vrací řetězec. Jak by se změnil kód,
+        kdybychom místo řetězce vraceli číslo (1 = výhra, 0 = remíza, -1 = prohra)?
+\end{enumerate}
 
 \odpoved[3cm]
 

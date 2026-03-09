@@ -2,7 +2,7 @@
 
 Výukové materiály pro první ročník vyššího gymnázia (kvinta).
 
-Série 10 lekcí, které postupně uvádějí studenty do programování v Pythonu prostřednictvím micro:bitu (MicroPython v2). Každá lekce kombinuje jeden nový Python koncept s konkrétní funkcí micro:bitu.
+Série 11 lekcí (lekce 11 volitelná), které postupně uvádějí studenty do programování v Pythonu prostřednictvím micro:bitu (MicroPython v2). Každá lekce kombinuje jeden nový Python koncept s konkrétní funkcí micro:bitu.
 
 ## Pro učitele
 
@@ -31,8 +31,23 @@ Studenti mají přístup k **veřejnému repozitáři** [mkgymji/pythonIntroMB-s
 | 06 | Senzory a data | `float`, `temperature()`, `accelerometer` |
 | 07 | Zvuk a hudba | listy, `import music` |
 | 08 | Vlastní funkce | `def`, parametry, `return` |
-| 09 | Radio — komunikace | `radio`, řetězce |
-| 10 | Závěrečný projekt | volná práce |
+| 09 | Radio — základy | `radio`, posílání zpráv |
+| 10 | Radio — hra dvou hráčů | protokoly, `while…else`, stavové proměnné |
+| 11 *(volitelná)* | Závěrečný projekt | volná práce |
+
+## Doporučené párování do dvouhodinovek
+
+| Dvouhodinovka | Lekce | Obsah |
+|---|---|---|
+| 1 | L01 + L02 | První program, proměnné |
+| 2 | L03 + L04 | Podmínky, cykly |
+| 3 | L05 + L06 | Náhoda, senzory |
+| 4 | L07 + L08 | Hudba/seznamy, funkce |
+| 5 | L09 + L10 | Rádio — základy + hra dvou hráčů |
+| 6 *(volitelná)* | L11 | Volný projekt |
+
+Kurz lze uzavřít po dvouhodinovce 5 — studenti odchází se znalostí celého základu Pythonu
+včetně bezdrátové komunikace a hry. Lekce 11 je přirozenou korunkou pro třídy s~více časem.
 
 ## Sestavení PDF
 
@@ -48,5 +63,5 @@ Vyžaduje: XeLaTeX, `latexmk`.
 
 ## Šablony zdrojových kódů
 
-Lekce 09 a 10 obsahují `template.py` v adresáři `student/lekceXX/` jako startovní bod pro studenty.
+Lekce 09 a 11 obsahují `template.py` v adresáři `student/lekceXX/` jako startovní bod pro studenty.
 Ostatní lekce šablonu nemají záměrně — studenti kód píší od začátku.

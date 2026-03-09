@@ -8,7 +8,8 @@ Výukové materiály **Úvod do Pythonu na Micro:bitu** pro první ročník vyš
 Studenti začínají s Pythonem od nuly; micro:bit (MicroPython v2) slouží jako motivační prostředek.
 Thonny je vývojové prostředí, micro:bit sdílí více skupin — studenti umí reflashovat MicroPython firmware.
 
-Série má 10 lekcí (lekce01–lekce10). Každá lekce = jeden Python koncept + jedna micro:bit feature.
+Série má 11 lekcí (lekce01–lekce11). Každá lekce = jeden Python koncept + jedna micro:bit feature.
+Lekce 11 (volný projekt) je volitelná — kurz lze uzavřít po lekci 10.
 
 | Lekce | Python koncept | Micro:bit feature |
 |-------|---------------|-------------------|
@@ -21,7 +22,8 @@ Série má 10 lekcí (lekce01–lekce10). Každá lekce = jeden Python koncept +
 | 07 | listy, `import music` | melodie, zvuky |
 | 08 | `def`, parametry, `return` | refaktoring předchozích programů |
 | 09 | řetězce, protokoly | `radio`, posílání zpráv |
-| 10 | vše dohromady | volný projekt |
+| 10 | protokoly, stavové proměnné, `while…else` | `radio`, hra dvou hráčů |
+| 11 *(volitelná)* | vše dohromady | volný projekt |
 
 ## Repozitáře
 

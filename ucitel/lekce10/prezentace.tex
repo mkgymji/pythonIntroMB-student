@@ -1,7 +1,7 @@
-% prezentace.tex -- Lekce 10: Volný projekt
+% prezentace.tex -- Lekce 10: Rádio — hra dvou hráčů
 \input{../spolecne/preamble-prez.tex}
 
-\title{Lekce 10: Volný projekt}
+\title{Lekce 10: Rádio — hra dvou hráčů}
 \subtitle{Úvod do Pythonu na Micro:bitu}
 \date{}
 
@@ -12,102 +12,320 @@
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}{Co všechno umíme}
+\begin{frame}{Připomenutí z minula}
 
-  Za deset lekcí jsme prošli celý základ Pythonu:
+  \textbf{Lekce 09} — základy rádia:
 
   \bigskip
-  \begin{center}
-  \begin{tabular}{lll}
-    \toprule
-    \textbf{Lekce} & \textbf{Python} & \textbf{Micro:bit} \\
-    \midrule
-    01 & volání funkcí, skript  & \texttt{display.show/scroll} \\
-    02 & proměnné, \texttt{int}, \texttt{str} & vizitka \\
-    03 & \texttt{if / elif / else} & tlačítka \\
-    04 & \texttt{while}, \texttt{for}, \texttt{sleep()} & animace \\
-    05 & \texttt{import random} & hod kostkou \\
-    06 & \texttt{float}, operátory & senzory \\
-    07 & seznamy, \texttt{import music} & melodie \\
-    08 & \texttt{def}, parametry, \texttt{return} & refaktoring \\
-    09 & řetězce, \texttt{import radio} & komunikace \\
-    \bottomrule
-  \end{tabular}
-  \end{center}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{block}{Co umíme}
+        \begin{itemize}
+          \item \pyinline{radio.config(channel=X)}
+          \item \pyinline{radio.on()}
+          \item \pyinline{radio.send("text")}
+          \item \pyinline{radio.receive()} → \pyinline{str} nebo \pyinline{None}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \begin{alertblock}{Klíčové pravidlo}
+        \pyinline{receive()} vrací \pyinline{None},\\
+        pokud žádná zpráva nečeká.\\[6pt]
+        Vždy kontroluj:\\
+        \pyinline{if zprava is not None:}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+
+  \bigskip
+  \textbf{Dnes:} Použijeme rádio k~naprogramování \emph{hry} pro dva hráče.
+
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}{Nápady na projekty}
+\begin{frame}{Co je protokol}
+
+  \begin{block}{Protokol}
+    Přesně definovaná sada zpráv a pravidel — kdo posílá co a kdy.\\
+    Bez protokolu si zařízení nerozumějí.
+  \end{block}
+
+  \bigskip
+  \textbf{Příklad z~reálného světa:}
+  \begin{itemize}
+    \item HTTP — protokol pro webové stránky
+    \item Bluetooth — protokol pro bezdrátová sluchátka
+    \item \textbf{Náš protokol} — domluvíme si sami, tři zprávy
+  \end{itemize}
+
+  \bigskip
+  \begin{exampleblock}{Dnešní protokol — reakcní hra}
+    \begin{tabular}{ll}
+      \pyinline{"NYNI"}    & hostitel → oba; signál k~reakci \\
+      \pyinline{"HIT"}     & host → hostitel; „stiskl jsem A" \\
+      \pyinline{"PROHRAL"} & hostitel → host; „byl jsi pomalejší" \\
+    \end{tabular}
+  \end{exampleblock}
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Reakcní hra — pravidla}
+
+  \begin{enumerate}
+    \item \textbf{Hostitel} stiskne~B → čeká \emph{náhodnou} dobu (1–4~s)
+    \item Hostitel pošle \pyinline{"NYNI"} → oba zobrazí \texttt{!}
+    \item \textbf{Kdo dřív stiskne~A, vyhrál kolo:}
+      \begin{itemize}
+        \item Host stiskl dřív → pošle \pyinline{"HIT"}
+        \item Hostitel stiskl dřív → nic neposílá
+      \end{itemize}
+    \item Hostitel vyhodnotí, informuje hosta, zobrazí skóre
+  \end{enumerate}
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Hostitel} & & \textbf{Host} \\
+    \midrule
+    stiskni B & & (čeká) \\
+    sleep(náhoda) & & (čeká) \\
+    send(\pyinline{"NYNI"}) & $\longrightarrow$ & zobraz \texttt{!} \\
+    zobraz \texttt{!} & & \\
+    \multicolumn{3}{c}{\textit{--- závodíme ---}} \\
+    (nebo přijme) & $\longleftarrow$ & send(\pyinline{"HIT"}) \\
+    send(\pyinline{"PROHRAL"}) & $\longrightarrow$ & (nebo přijme) \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Program hostitele (1/2)}
+
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+from microbit import *
+import radio
+import random
+
+radio.config(channel=42)
+radio.on()
+skore_ja = 0
+skore_souper = 0
+
+while True:
+    display.show(Image.ASLEEP)
+
+    if button_b.was_pressed():
+        sleep(random.randint(1000, 4000))   # soupeř neví kdy
+        radio.send("NYNI")
+        display.show("!")
+\end{lstlisting}
+
+  \begin{itemize}
+    \item Po startu čekáme na stisk~B
+    \item \pyinline{random.randint(1000, 4000)} — náhoda ze~L05!
+    \item Pošleme \pyinline{"NYNI"} a \emph{zároveň} zobrazíme \texttt{!}
+  \end{itemize}
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Program hostitele (2/2)}
+
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+        vitez = None
+        while vitez is None:
+            if button_a.was_pressed():
+                vitez = "JA"
+            prijato = radio.receive()
+            if prijato == "HIT":
+                vitez = "SOUPER"
+
+        if vitez == "JA":
+            radio.send("PROHRAL")
+            skore_ja += 1
+            display.show(Image.HAPPY)
+        else:
+            skore_souper += 1
+            display.show(Image.SAD)
+
+        sleep(1500)
+        display.scroll(str(skore_ja) + ":" + str(skore_souper))
+\end{lstlisting}
+
+  \begin{itemize}
+    \item \pyinline{vitez = None} — zatím nikdo nevyhrál
+    \item Smyčka čeká na \emph{první} událost: vlastní stisk nebo \pyinline{"HIT"}
+    \item Pak vyhodnotíme, sdělíme výsledek, zobrazíme skóre
+  \end{itemize}
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Program hosta}
+
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+from microbit import *
+import radio
+
+radio.config(channel=42)
+radio.on()
+skore_ja = 0
+skore_souper = 0
+
+while True:
+    display.show(Image.ASLEEP)
+    prijato = radio.receive()
+
+    if prijato == "NYNI":
+        display.show("!")
+
+        vitez = None
+        while vitez is None:
+            if button_a.was_pressed():
+                vitez = "JA"
+                radio.send("HIT")
+            prijato2 = radio.receive()
+            if prijato2 == "PROHRAL":
+                vitez = "SOUPER"
+
+        if vitez == "JA":
+            skore_ja += 1
+            display.show(Image.HAPPY)
+        else:
+            skore_souper += 1
+            display.show(Image.SAD)
+
+        sleep(1500)
+        display.scroll(str(skore_ja) + ":" + str(skore_souper))
+\end{lstlisting}
+
+  Host \textbf{nepotřebuje} \pyinline{import random} — náhodnou prodlevu řídí hostitel.
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Asymetrický vs.\ symetrický protokol}
 
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Jednodušší (\(\bigstar\))}
+      \begin{block}{Reakcní hra — asymetrická}
         \begin{itemize}
-          \item Digitální kostka s animací
-          \item Stopky / odpočítávání
-          \item Teploměr s varováním
-          \item Věštírna s obrázky
+          \item Hostitel a host mají \textbf{různý} kód
+          \item Jedna strana „vede", druhá reaguje
+          \item Jednodušší na implementaci
         \end{itemize}
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Náročnější (\(\bigstar\bigstar\))}
+      \begin{block}{KNP — symetrická}
         \begin{itemize}
-          \item Jukebox s vlastními melodiemi
-          \item Hádej číslo (micro:bit vs.\ hráč)
-          \item Komunikátor přes radio
-          \item Hra pro dva hráče (radio)
+          \item Oba hráči spustí \textbf{stejný} kód
+          \item Kdo „vede" určuje náhoda
+          \item Složitější koordinace
         \end{itemize}
       \end{block}
     \end{column}
   \end{columns}
 
   \bigskip
-  \begin{exampleblock}{Vlastní nápad?}
-    Cokoliv, co tě baví — pokud to funguje a využívá alespoň 3~koncepty z~kurzu.
+  \begin{exampleblock}{Otázka do třídy}
+    Jak zajistíme, aby oba hráči věděli \emph{zároveň}, že kolo začíná —
+    bez toho, abychom předem určili, kdo je hostitel?
   \end{exampleblock}
+
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}{Jak na projekt}
+\begin{frame}{KNP — synchronizace přes náhodný čas}
 
-  \begin{enumerate}
-    \item \textbf{Vyber si téma} — co bude micro:bit dělat?
-    \item \textbf{Napiš plán} — jaké koncepty použiješ? Jaké funkce nadefinuješ?
-    \item \textbf{Rozděl na části} — začni nejjednodušší částí, postupně rozšiřuj
-    \item \textbf{Testuj průběžně} — ověř, že každá část funguje, než přidáš další
-    \item \textbf{Odevzdej} — kód + krátký popis co program dělá
-  \end{enumerate}
+  \textbf{Každé zařízení} si losuje náhodnou dobu čekání (2–5~s).
 
   \bigskip
-  \begin{alertblock}{Tip}
-    Fungující jednoduchý program je lepší než nefungující složitý.\\
-    Začni základem — vylepšovat můžeš vždy.
+  \begin{center}
+  \begin{tabular}{ccc}
+    \toprule
+    \textbf{Zařízení A} & & \textbf{Zařízení B} \\
+    \midrule
+    los: čekám 2,3~s & & los: čekám 3,8~s \\
+    \textit{(čas vypršel — A bylo rychlejší)} & & \\
+    zapípá + send(\pyinline{"GO"}) & $\longrightarrow$ & přijme \pyinline{"GO"} \\
+    & & zapípá \\
+    \multicolumn{3}{c}{\textit{--- oba zobrazí ? — výběr za 3 s ---}} \\
+    send(\pyinline{"K"}) & $\longrightarrow$ & \\
+    & $\longleftarrow$ & send(\pyinline{"N"}) \\
+    \multicolumn{3}{c}{\textit{--- oba vyhodnotí ---}} \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \textbf{Výsledek:} Role „hostitele" vzniká dynamicky z~náhody —
+  nikdo ji nemusí přidělovat předem.
+
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{KNP — synchronizace v kódu}
+
+\begin{lstlisting}[basicstyle=\small\ttfamily]
+cas_cekani = random.randint(2000, 5000)
+konec = running_time() + cas_cekani
+
+while running_time() < konec:
+    zprava = radio.receive()
+    if zprava == "GO":
+        music.pitch(880, 200)  # soupeř byl rychlejší
+        break
+    sleep(50)
+else:
+    # while skončil přirozeně = čas mi vypršel = já jsem rychlejší
+    music.pitch(880, 200)
+    radio.send("GO")
+\end{lstlisting}
+
+  \begin{alertblock}{\texttt{while \ldots else}}
+    \pyinline{else} u \pyinline{while} se spustí jen pokud smyčka skončila
+    \emph{přirozeně} (podmínka nepravdivá) — \textbf{ne} přes \pyinline{break}.\\
+    Tady: „přirozený konec" = čas vypršel = jsem rychlejší.
   \end{alertblock}
+
 \end{frame}
 
 % ------------------------------------------------------------------
-\begin{frame}{Co odevzdat}
+\begin{frame}[fragile]{KNP — výběr a vyhodnocení}
+
+\begin{lstlisting}[basicstyle=\small\ttfamily]
+display.show("?")
+volba = None
+konec_volby = running_time() + 3000
+
+while running_time() < konec_volby and volba is None:
+    if button_a.is_pressed() and button_b.is_pressed():
+        volba = "P"          # papír = obě tlačítka
+    elif button_a.was_pressed():
+        volba = "K"          # kámen
+    elif button_b.was_pressed():
+        volba = "N"          # nůžky
+    sleep(20)
+
+radio.send(volba)
+
+# ... čekej na soupeřovu volbu ...
+
+vysledek = vyhodnot(volba, souperova)
+\end{lstlisting}
 
   \begin{itemize}
-    \item[\checkmark] \textbf{Zdrojový kód} (soubor \texttt{.py})
-    \item[\checkmark] \textbf{Krátký popis} — co program dělá a které koncepty jsi použil/a
-    \item[\checkmark] Volitelně: \textbf{video} s ukázkou programu v~akci
+    \item Výběr má časový limit (3~s) — pak \pyinline{display.scroll("CAS!")}
+    \item \pyinline{is\_pressed()} vs \pyinline{was\_pressed()} — proč \pyinline{is\_pressed()}
+          pro A+B?
   \end{itemize}
 
-  \bigskip
-  Program musí:
-  \begin{itemize}
-    \item fungovat (být „kompletní", ne jen fragment)
-    \item využívat alespoň \textbf{3 koncepty} z~kurzu
-    \item obsahovat alespoň \textbf{1 vlastní funkci} (\pyinline{def})
-  \end{itemize}
-
-  \bigskip
-  \begin{block}{Hodnocení}
-    Klíčová otázka: „Fungovalo by to na jiném micro:bitu?"\\
-    Pokud ano — splnil/a jsi zadání.
-  \end{block}
 \end{frame}
 
 \end{document}

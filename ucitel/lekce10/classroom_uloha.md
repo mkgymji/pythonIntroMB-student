@@ -6,37 +6,28 @@
 
 ## Název úlohy
 
-**Micro:bit — volný projekt**
+**Micro:bit — reakcní hra pro dva hráče**
 
 ## Zadání
 
-Naprogramujte libovolný program na micro:bitu. Téma a obsah si volíte sami.
+Naprogramujte s kamarádem reakcní hru „Rychlé prsty" přes rádio.
+
+Jeden z vás nahraje **program hostitele**, druhý **program hosta** (oba kódy jsou v pracovním listu).
 
 Program musí:
-- fungovat a dělat to, co má (být „kompletní", ne jen fragment)
-- využívat alespoň **3 různé koncepty** z kurzu
-  (proměnné, podmínky, cyklus, funkce, seznam, random, senzory, hudba, radio, …)
-- obsahovat alespoň **1 vlastní funkci** (`def`)
-
-## Příklady projektů
-
-- Jukebox s vlastními melodiemi a výběrem tlačítky
-- Teploměr s animací podle teploty
-- Věštírna kombinující obrázky a texty
-- Hra pro dva hráče přes radio
-- Stopky nebo odpočítávač
-- Vlastní nápad — cokoliv, co tě baví!
+- fungovat na dvou micro:bitech přes `import radio`
+- spouštět kolo stiskem tlačítka B (hostitel)
+- po náhodné prodlevě zobrazit signál `!` na obou zařízeních
+- správně vyhodnotit, kdo stiskl A dříve
+- zobrazovat průběžné skóre
 
 ## Co odevzdat
 
-1. **Zdrojový kód** (soubor `.py`)
-2. **Krátký popis** (2–4 věty): co program dělá a které koncepty jsi použil/a
-
-Volitelně: krátké **video** s ukázkou programu v akci.
+Odevzdejte **oba zdrojové kódy** (soubory `hostitel.py` a `host.py`) nebo **krátké video**,
+na kterém je vidět, že hra funguje — hráči reagují na signál a skóre se mění.
 
 ## Hodnocení
 
-- Program funguje a splňuje zadání: **ano / ne**
-- Použité koncepty (alespoň 3): **ano / ne**
-- Vlastní funkce (alespoň 1): **ano / ne**
-- Srozumitelný popis: **ano / ne**
+Splnil/a jsi úkol, pokud:
+- hra detekuje správného vítěze kola
+- skóre se průběžně zobrazuje na displeji
