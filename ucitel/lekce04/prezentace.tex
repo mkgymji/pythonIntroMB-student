@@ -1,0 +1,170 @@
+% prezentace.tex -- Lekce 04: Cykly a animace
+\input{../spolecne/preamble-prez.tex}
+
+\title{Lekce 04: Cykly a animace}
+\subtitle{Úvod do Pythonu na Micro:bitu}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{while True:} — teď pořádně}
+
+  V minulé lekci jsme použili \pyinline{while True:} jako zaklínadlo.
+  Teď víme, co to znamená:
+
+  \bigskip
+  \begin{block}{while cyklus}
+    \begin{lstlisting}
+while podminka:
+    # opakuj, dokud podminka plati
+    \end{lstlisting}
+  \end{block}
+
+  \bigskip
+  \pyinline{True} je vždy pravda → cyklus \textbf{nikdy neskončí}.
+
+  \medskip
+  Používáme ho pro programy, které mají běžet pořád:\\
+  sledovat tlačítka, senzory, zobrazovat animace.
+
+  \bigskip
+  \textcolor{gray}{\small Zastavení: tlačítko \textbf{Stop} v Thonny nebo \textbf{Reset} na micro:bitu.}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{sleep()} — pauza}
+
+  \pyinline{sleep(ms)} pozastaví program na zadaný počet \textbf{milisekund}:
+
+  \bigskip
+  \begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Zápis} & \textbf{Pauza} \\
+    \midrule
+    \pyinline{sleep(100)}  & 0,1 sekundy \\
+    \pyinline{sleep(500)}  & půl sekundy \\
+    \pyinline{sleep(1000)} & 1 sekunda \\
+    \pyinline{sleep(2000)} & 2 sekundy \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \bigskip
+  \begin{lstlisting}
+while True:
+    display.show(Image.HEART)
+    sleep(500)
+    display.clear()
+    sleep(500)
+  \end{lstlisting}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{\texttt{for} cyklus — opakuj N-krát}
+
+  \pyinline{while True:} běží donekonečna.
+  \pyinline{for} cyklus se zastaví po přesném počtu opakování:
+
+  \bigskip
+  \begin{lstlisting}
+for i in range(5):
+    display.show(str(i))
+    sleep(600)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item \pyinline{range(5)} vygeneruje čísla \pyinline{0, 1, 2, 3, 4}
+    \item Proměnná \pyinline{i} přijímá postupně každou hodnotu
+    \item Po posledním opakování cyklus skončí a program pokračuje dál
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{alertblock}{Pozor: range začíná od nuly!}
+    \pyinline{range(5)} → 0, 1, 2, 3, 4 \quad (ne 1 až 5)
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Iterační proměnná \texttt{i}}
+
+  Proměnnou \pyinline{i} lze použít přímo ve výpočtu nebo podmínce:
+
+  \begin{lstlisting}
+for i in range(5):
+    display.set_pixel(i, 2, 9)   # sviti pixel na x=i, y=2
+    sleep(200)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{center}
+  \begin{tikzpicture}[scale=0.7]
+    % 5x5 grid
+    \foreach \x in {0,...,4}
+      \foreach \y in {0,...,4}
+        \draw[gray!30] (\x*0.8, -\y*0.8) rectangle (\x*0.8+0.7, -\y*0.8+0.7);
+    % middle row highlight (y=2 -> row index 2 from top)
+    \foreach \x in {0,...,4}
+      \draw[microbit-blue, very thick] (\x*0.8, -2*0.8) rectangle (\x*0.8+0.7, -2*0.8+0.7);
+    % animated pixel (show i=2 as example)
+    \fill[microbit-blue] (2*0.8+0.1, -2*0.8+0.1) rectangle (2*0.8+0.6, -2*0.8+0.6);
+    % labels
+    \foreach \x in {0,...,4}
+      \node[font=\tiny, gray] at (\x*0.8+0.35, 0.5) {\x};
+    \node[font=\small, microbit-blue] at (-0.6, -2*0.8+0.35) {y=2};
+  \end{tikzpicture}
+  \end{center}
+
+  \textcolor{gray}{\small \pyinline{i} postupně nabývá hodnot 0, 1, 2, 3, 4 → pixel se pohybuje.}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Animace — sekvence obrázků}
+
+  Obrázky uložíme do \textbf{seznamu} a procházíme je \pyinline{for} cyklem:
+
+  \begin{lstlisting}
+from microbit import *
+
+snimky = [Image.HAPPY, Image.SMILE, Image.SAD]
+
+while True:
+    for obrazek in snimky:
+        display.show(obrazek)
+        sleep(400)
+  \end{lstlisting}
+
+  \bigskip
+  \begin{itemize}
+    \item Proměnná \pyinline{obrazek} přijímá postupně každý prvek seznamu
+    \item \pyinline{while True:} zajistí, že animace běží stále dokola
+    \item Délku pauzy (400 ms) lze libovolně měnit
+  \end{itemize}
+
+  \pause\bigskip
+  \begin{exampleblock}{Vestavěná animace}
+    \pyinline{display.show(Image.ALL\_CLOCKS, delay=100, loop=True)}
+  \end{exampleblock}
+\end{frame}
+
+% ------------------------------------------------------------------
+\begin{frame}{Co jsme se naučili}
+  \begin{itemize}
+    \item[\checkmark] \pyinline{while True:} — nekonečný cyklus; typický pro senzory a animace
+    \item[\checkmark] \pyinline{sleep(ms)} — pauza v milisekundách
+    \item[\checkmark] \pyinline{display.clear()} — zhasne celý displej
+    \item[\checkmark] \pyinline{for i in range(n):} — opakuj přesně n-krát
+    \item[\checkmark] \pyinline{range(n)} začíná od 0, končí n-1
+    \item[\checkmark] Iterační proměnná \pyinline{i} lze použít ve výpočtu
+    \item[\checkmark] Animace = seznam obrázků procházený \pyinline{for} cyklem
+    \item[\checkmark] \pyinline{display.set_pixel(x, y, jas)} — ovládání jedné LED
+  \end{itemize}
+\end{frame}
+
+\end{document}

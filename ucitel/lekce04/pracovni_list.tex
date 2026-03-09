@@ -1,0 +1,140 @@
+% pracovni_list.tex -- Lekce 04: Cykly a animace
+\newcommand{\lekce}{Lekce 04 -- Pracovní list}
+\input{../spolecne/preamble-pl.tex}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries\textcolor{microbit-blue}{Lekce 04: Cykly a animace}}\\[4pt]
+  {\large Pracovní list}
+\end{center}
+
+\medskip\noindent
+Cykly umožňují opakovat části programu — buď donekonečna, nebo přesně
+zadaný počet opakování. Dnes je využijeme k~animacím na~displeji.
+
+% ------------------------------------------------------------------
+\begin{ukol}[Blikající srdce]
+
+Zadej program a spusť ho:
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    display.show(Image.HEART)
+    sleep(500)
+    display.clear()
+    sleep(500)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Co dělá \pyinline{sleep(500)}? Co se stane, když číslo změníš na \pyinline{100}?
+        Na \pyinline{2000}?
+  \item Co dělá \pyinline{display.clear()}?
+  \item Upravte program tak, aby srdce blikalo rychle třikrát, pak se na sekundu
+        zastavilo — a tak stále dokola. (Tip: vnořený \pyinline{for} cyklus.)
+\end{enumerate}
+
+\odpoved[2cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=sleep() a display.clear()]
+  \small
+  \begin{itemize}[leftmargin=*]
+    \item \pyinline{sleep(ms)} — program čeká zadaný počet milisekund.
+          \pyinline{sleep(1000)} = 1 sekunda.
+    \item \pyinline{display.clear()} — zhasne všechny LED.
+  \end{itemize}
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Cyklus for a range()]
+
+\pyinline{for} cyklus opakuje blok přesně tolikrát, kolik řekneme:
+
+\begin{lstlisting}
+from microbit import *
+
+for i in range(5):
+    display.show(str(i))
+    sleep(600)
+
+display.show(Image.YES)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Spusť program. Jaká čísla se zobrazí? (Pozor — začínají od 0!)
+  \item Změň \pyinline{range(5)} na \pyinline{range(10)} — co se změní?
+  \item Jaký je rozdíl mezi \pyinline{while True:} a \pyinline{for i in range(5):}?
+\end{enumerate}
+
+\odpoved[2.5cm]
+
+\begin{tcolorbox}[colback=code-bg, colframe=gray!40,
+                  fonttitle=\small\bfseries, title=range() a proměnná i]
+  \small
+  \pyinline{range(n)} vygeneruje čísla \pyinline{0, 1, 2, ..., n-1}.\\
+  Proměnná \pyinline{i} (nebo jakékoli jiné jméno) přijímá postupně každou hodnotu.\\
+  \pyinline{for i in range(3):} → i bude 0, pak 1, pak 2.
+\end{tcolorbox}
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Vlastní animace]
+
+Vytvoř animaci ze sekvence obrázků. Obrázky ulož do~proměnné jako seznam
+a~procházej je \pyinline{for} cyklem:
+
+\begin{lstlisting}
+from microbit import *
+
+snimky = [Image.HAPPY, Image.SMILE, Image.SAD]
+
+while True:
+    for obrazek in snimky:
+        display.show(obrazek)
+        sleep(400)
+\end{lstlisting}
+
+\begin{enumerate}
+  \item Spusť program a pozoruj animaci.
+  \item Přidej do seznamu \pyinline{snimky} další obrázky dle vlastního výběru.
+        Zkus např.: \pyinline{Image.SURPRISED}, \pyinline{Image.ANGRY},
+        \pyinline{Image.ASLEEP}, \pyinline{Image.GHOST}, \pyinline{Image.PACMAN}.
+  \item Uprav \pyinline{sleep()} tak, aby animace vypadala přirozeně.
+\end{enumerate}
+
+\medskip
+Výslednou animaci ulož a připrav k odevzdání do Google Classroom.
+
+\end{ukol}
+
+% ------------------------------------------------------------------
+\begin{ukol}[Bonus: pohybující se bod]
+
+Funkce \pyinline{display.set_pixel(x, y, jas)} rozsvítí jednu LED na souřadnicích
+\pyinline{x} (sloupec 0--4, zleva) a \pyinline{y} (řádek 0--4, shora) s jasem 0--9.
+
+Zkus napsat program, který pohybuje jasným bodem zleva doprava po prostřední řadě:
+
+\begin{lstlisting}
+from microbit import *
+
+while True:
+    for x in range(5):
+        display.clear()
+        display.set_pixel(x, 2, 9)
+        sleep(150)
+\end{lstlisting}
+
+Jak bys program upravil, aby se bod pohyboval tam a zpět?
+
+\odpoved[2.5cm]
+
+\end{ukol}
+
+\end{document}
